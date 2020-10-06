@@ -1,4 +1,4 @@
-export MAINTAINER:=ulm0
+export MAINTAINER:=ravermeister
 export NAME:=gitlab
 export IMAGE:=$(MAINTAINER)/$(NAME)
 export CE_VERSION:=$(shell ./ci/version)
