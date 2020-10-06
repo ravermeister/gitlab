@@ -1,8 +1,8 @@
 stages:
-  - register
+#  - register
   - test
   - release
-  - unregister
+#  - unregister
 
 .imgjob:
   image: docker:stable
