@@ -1,4 +1,4 @@
-export MAINTAINER:=ulm0
+export MAINTAINER:=ravermeister
 export NAME:=gitlab
 export IMAGE:=$(MAINTAINER)/$(NAME)
 export CE_VERSION:=$(shell ./ci/version)
@@ -26,7 +26,7 @@ version: FORCE
 	@echo Image: $(IMAGE):$(CE_TAG)
 	@echo Platorms: $(ARCHS)
 	@echo ""
-	@echo Brought to you by ulm0
+	@echo Brought to you by ravermeister
 	@echo "---"
 
 build: version
