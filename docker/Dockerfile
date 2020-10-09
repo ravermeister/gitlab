@@ -1,6 +1,6 @@
-FROM arm32v7/ubuntu
-LABEL maintainer "Pierre Ugaz <ulm0@innersea.xyz>"
-SHELL ["/bin/sh", "-c"],
+FROM arm64v8/ubuntu
+LABEL maintainer = "Jonny Rimkus <jonny@rimkus.it>"
+SHELL ["/bin/sh", "-c"]
 ENV LANG=C.UTF-8
 # Install required packages
 RUN set -eux; \

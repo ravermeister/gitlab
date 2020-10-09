@@ -1,8 +1,8 @@
 stages:
-#  - register
+ # - register
   - test
   - release
-#  - unregister
+ # - unregister
 
 .imgjob:
   image: docker:stable
@@ -17,13 +17,13 @@ stages:
     - mkdir utils
     - apk add --no-cache make bash
 
-.runner:
-  image:
-    name: hashicorp/terraform:0.12.29
-    entrypoint: [""]
-  before_script:
-    - cd ci/runner
-    - terraform init
+#.runner:
+#  image:
+#    name: hashicorp/terraform:0.12.29
+#    entrypoint: [""]
+#  before_script:
+#    - cd ci/runner
+#    - terraform init
 
 #register:
 #  extends: .runner
