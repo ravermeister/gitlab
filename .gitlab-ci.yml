@@ -1,6 +1,6 @@
 stages:
  # - register
- # - test
+  - test
   - release
  # - unregister
 
@@ -31,16 +31,16 @@ stages:
 #  script:
 #    - terraform apply -auto-approve
 
-#test:
-#  extends: .imgjob
-#  stage: test
-#  only:
-#    - branches
-#  except:
-#    - master
-#  script:
-#    - make build
-#  allow_failure: true
+test:
+  extends: .imgjob
+  stage: test
+  only:
+    - branches
+  except:
+    - master
+  script:
+    - make build
+  allow_failure: true
 
 gitlab:
   extends: .imgjob
