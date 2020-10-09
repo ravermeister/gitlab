@@ -1,6 +1,6 @@
 stages:
  # - register
-  - test
+  - snapshot
   - release
  # - unregister
 
@@ -31,22 +31,24 @@ stages:
 #  script:
 #    - terraform apply -auto-approve
 
-test:
+build_test:
   extends: .imgjob
-  stage: test
+  stage: snapshot
   only:
     - branches
   except:
     - master
+    - fork/master
   script:
     - make build
   allow_failure: true
 
-gitlab:
+build_release:
   extends: .imgjob
   stage: release
   only:
     - master
+    - fork/master
   script:
     - make all
 
