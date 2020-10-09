@@ -1,12 +1,11 @@
-FROM ubuntu:16.04
+FROM arm32v7/ubuntu
 LABEL maintainer "Pierre Ugaz <ulm0@innersea.xyz>"
 SHELL ["/bin/sh", "-c"],
 ENV LANG=C.UTF-8
 # Install required packages
 RUN set -eux; \
-    apt-get update -qq \
-    && apt-get upgrade -yqq \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -yqq --no-install-recommends \
+    apt-get update -q \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
       apt-transport-https \
       ca-certificates \
       less \
