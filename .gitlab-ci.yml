@@ -31,9 +31,9 @@ stages:
 #  script:
 #    - terraform apply -auto-approve
 
-snapshot:
+build_test:
   extends: .imgjob
-  stage: test
+  stage: snapshot
   only:
     - branches
   except:
@@ -43,7 +43,7 @@ snapshot:
     - make build
   allow_failure: true
 
-gitlab:
+build_release:
   extends: .imgjob
   stage: release
   only:
