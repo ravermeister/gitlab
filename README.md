@@ -1,6 +1,6 @@
 # GitLab CE for ARM
 
-[![pipeline status](https://gitlab.com/ravermeister/gitlab/badges/fork/master/pipeline.svg)](https://gitlab.com/ravermeister/gitlab/commits/fork/master) [![](https://images.microbadger.com/badges/version/ravermeister/gitlab.svg)](https://microbadger.com/images/ravermeister/gitlab "Get your own version badge on microbadger.com") [![](https://images.microbadger.com/badges/image/ravermeister/gitlab.svg)](https://microbadger.com/images/ravermeister/gitlab "Get your own image badge on microbadger.com") [![Docker Pulls](https://img.shields.io/docker/pulls/ravermeister/gitlab.svg)](https://hub.docker.com/r/ravermeister/gitlab/)
+[![pipeline status](https://gitlab.com/ravermeister/gitlab/badges/fork/master/pipeline.svg)](https://gitlab.com/ravermeister/gitlab/commits/fork/master) [![](https://images.microbadger.com/badges/version/ravermeister/armhf-gitlab.svg)](https://microbadger.com/images/ravermeister/armhf-gitlab "Get your own version badge on microbadger.com") [![](https://images.microbadger.com/badges/image/ravermeister/armhf-gitlab.svg)](https://microbadger.com/images/ravermeister/armhf-gitlab "Get your own image badge on microbadger.com") [![Docker Pulls](https://img.shields.io/docker/pulls/ravermeister/armhf-gitlab.svg)](https://hub.docker.com/r/ravermeister/armhf-gitlab/)
 
 GitLab CE for ARM is in Docker Hub:
 
