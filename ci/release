@@ -24,7 +24,7 @@ logout() {
     _docker logout "${1}"
 }
 
-if [[ "${CI_COMMIT_REF_NAME}" == "master" ]]; then
+if [[ "${CI_COMMIT_REF_NAME}" == "master" -o "${CI_COMMIT_REF_NAME}" == "fork/master" ]]; then
     tag "${IMAGE}:${CE_TAG}" "${IMAGE}:latest"
 fi
 
