@@ -1,4 +1,4 @@
-FROM arm64v8/ubuntu
+FROM arm32v7/ubuntu
 LABEL maintainer = "Jonny Rimkus <jonny@rimkus.it>"
 SHELL ["/bin/sh", "-c"]
 ENV LANG=C.UTF-8
