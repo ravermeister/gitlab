@@ -4,7 +4,7 @@
 
 GitLab CE for ARM is in Docker Hub:
 
-- [ravermeister/gitlab](https://hub.docker.com/r/ravermeister/armhf-gitlab/)
+- [ravermeister/armhf-gitlab](https://hub.docker.com/r/ravermeister/armhf-gitlab/)
 
 The GitLab Docker image is a monolithic image of GitLab running all the necessary services on a single container.
 
