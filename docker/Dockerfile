@@ -1,5 +1,5 @@
 FROM arm32v7/ubuntu
-LABEL maintainer "Jonny Rimkus <jonny@rimkus.it>"
+LABEL maintainer="Jonny Rimkus <jonny@rimkus.it>"
 SHELL ["/bin/sh", "-c"]
 ENV LANG=C.UTF-8
 # Install required packages
