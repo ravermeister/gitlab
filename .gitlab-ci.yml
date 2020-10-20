@@ -13,7 +13,7 @@ stages:
     - arm
   before_script:
     - mkdir utils
-    - apk add --no-cache make bash
+    - apk add --no-cache make bash curl
 
 build_test:
   extends: .imgjob
@@ -35,5 +35,5 @@ build_release:
     - fork/master
   script:
     - make all
-    - curl -X POST https://hooks.microbadger.com/images/ravermeister/armhf-gitlab/o9VyWZVOg4SYqB_BC57qn5Sm26Q=
+    - curl -sX POST https://hooks.microbadger.com/images/ravermeister/armhf-gitlab/o9VyWZVOg4SYqB_BC57qn5Sm26Q=
 
