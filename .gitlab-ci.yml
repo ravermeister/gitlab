@@ -1,8 +1,6 @@
 stages:
- # - register
   - snapshot
   - release
- # - unregister
 
 .imgjob:
   image: docker:stable
@@ -16,20 +14,6 @@ stages:
   before_script:
     - mkdir utils
     - apk add --no-cache make bash
-
-#.runner:
-#  image:
-#    name: hashicorp/terraform:0.12.29
-#    entrypoint: [""]
-#  before_script:
-#    - cd ci/runner
-#    - terraform init
-
-#register:
-#  extends: .runner
-#  stage: register
-#  script:
-#    - terraform apply -auto-approve
 
 build_test:
   extends: .imgjob
@@ -51,10 +35,5 @@ build_release:
     - fork/master
   script:
     - make all
+    - curl -X POST https://hooks.microbadger.com/images/ravermeister/armhf-gitlab/o9VyWZVOg4SYqB_BC57qn5Sm26Q=
 
-#unregister:
-#  extends: .runner
-#  stage: unregister
-#  script:
-#    - terraform destroy -auto-approve
-#  when: always
