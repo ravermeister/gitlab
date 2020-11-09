@@ -38,7 +38,7 @@ docker run -d \
 -v /srv/gitlab/config:/etc/gitlab \
 -v /srv/gitlab/logs:/var/log/gitlab \
 -v /srv/gitlab/data:/var/opt/gitlab \
-ulm0/gitlab
+ravermeister/armhf-gitlab
 ```
 
 This will download and start a GitLab CE container and publish ports needed to
@@ -59,7 +59,7 @@ docker run -d \
 -v /srv/gitlab/config:/etc/gitlab:Z \
 -v /srv/gitlab/logs:/var/log/gitlab:Z \
 -v /srv/gitlab/data:/var/opt/gitlab:Z \
-ulm0/gitlab
+ravermeister/armhf-gitlab
 ```
 
 This will ensure that the Docker process has enough permissions to create the
@@ -141,7 +141,7 @@ docker run -d \
 -v /srv/gitlab/config:/etc/gitlab \
 -v /srv/gitlab/logs:/var/log/gitlab \
 -v /srv/gitlab/data:/var/opt/gitlab \
-ulm0/gitlab
+ravermeister/armhf-gitlab
 ```
 
 Note that every time you execute a `docker run` command, you need to provide
@@ -180,7 +180,7 @@ To upgrade GitLab to a new version you have to:
 3. Pull the new image:
 
     ```bash
-    docker pull ulm0/gitlab
+    docker pull ravermeister/armhf-gitlab
     ```
 
 4. Create the container once again with previously specified options:
@@ -194,7 +194,7 @@ To upgrade GitLab to a new version you have to:
     -v /srv/gitlab/config:/etc/gitlab \
     -v /srv/gitlab/logs:/var/log/gitlab \
     -v /srv/gitlab/data:/var/opt/gitlab \
-    ulm0/gitlab
+    ravermeister/armhf-gitlab
     ```
 
 On the first run, GitLab will reconfigure and update itself.
@@ -205,10 +205,10 @@ We provide tagged versions of GitLab Docker images.
 
 To see all available tags check:
 
-- [GitLab tags](https://hub.docker.com/r/ulm0/gitlab/tags/)
+- [GitLab tags](https://hub.docker.com/r/ravermeister/armhf-gitlab/tags/)
 
-To use a specific tagged version, replace `ulm0/gitlab` with
-the GitLab version you want to run, for example `ulm0/gitlab:10.3.3`.
+To use a specific tagged version, replace `ravermeister/armhf-gitlab` with
+the GitLab version you want to run, for example `ravermeister/armhf-gitlab:13.5.1`.
 
 ### Run GitLab CE on public IP address
 
@@ -228,7 +228,7 @@ docker run -d \
 -v /srv/gitlab/config:/etc/gitlab \
 -v /srv/gitlab/logs:/var/log/gitlab \
 -v /srv/gitlab/data:/var/opt/gitlab \
-ulm0/gitlab
+ravermeister/armhf-gitlab
 ```
 
 You can then access your GitLab instance at `http://1.1.1.1/` and `https://1.1.1.1/`.
@@ -266,7 +266,7 @@ docker run -d \
 -v /srv/gitlab/config:/etc/gitlab \
 -v /srv/gitlab/logs:/var/log/gitlab \
 -v /srv/gitlab/data:/var/opt/gitlab \
-ulm0/gitlab
+ravermeister/armhf-gitlab
 ```
 
 You then need to appropriately configure `gitlab.rb`:
@@ -325,7 +325,7 @@ Docker-based GitLab installation.
 
     ```yaml
     web:
-      image: 'ulm0/gitlab'
+      image: 'ravermeister/armhf-gitlab'
       restart: always
       hostname: 'gitlab.example.com'
       environment:
@@ -354,7 +354,7 @@ HTTP and SSH port. Notice how the `GITLAB_OMNIBUS_CONFIG` variables match the
 
 ```yaml
 web:
-  image: 'ulm0/gitlab'
+  image: 'ravermeister/armhf-gitlab'
   restart: always
   hostname: 'gitlab.example.com'
   environment:
