@@ -1,4 +1,4 @@
-FROM arm32v7/ubuntu
+FROM arm32v7/debian
 LABEL maintainer="Jonny Rimkus <jonny@rimkus.it>"
 SHELL ["/bin/sh", "-c"]
 ENV LANG=C.UTF-8
