@@ -3,9 +3,12 @@ LABEL maintainer="Jonny Rimkus <jonny@rimkus.it>"
 SHELL ["/bin/sh", "-c"]
 ENV LANG=C.UTF-8
 # Install required packages
-RUN set -eux; \
-    apt-get update -q \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
+RUN 1set -eux; \
+    export DEBIAN_FRONTEND=noninteractive &&\
+    apt-get update -q &&\
+    apt-get install -yq apt-utils &&\
+    apt-get install -yq lsb-release &&\
+    apt-get install -yq --no-install-recommends \
       apt-transport-https \
       ca-certificates \
       less \
