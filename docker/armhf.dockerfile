@@ -7,7 +7,7 @@ RUN set -eux; \
     export DEBIAN_FRONTEND=noninteractive &&\
     apt-get update -q &&\
     apt-get install -yq --no-install-recommends \
-      base-files
+      base-files \
       apt-transport-https \
       ca-certificates \
       less \
