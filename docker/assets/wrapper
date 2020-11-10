@@ -24,7 +24,7 @@ function clean_stale_pids() {
         #  - any (s)ocket or regular (f)ile
         #  - by the name of "*.pid" or "socket.?"
         #  - and delete them
-        find $x \
+        find "$x" \
             \( \
               -type f \
               -o -type s \
@@ -117,7 +117,8 @@ mkdir -p /var/log/gitlab/reconfigure
 
 # Start service manager
 echo "Starting services..."
-GITLAB_OMNIBUS_CONFIG= /opt/gitlab/embedded/bin/runsvdir-start &
+export GITLAB_OMNIBUS_CONFIG=
+/opt/gitlab/embedded/bin/runsvdir-start &
 
 echo "Configuring GitLab..."
 gitlab-ctl reconfigure
@@ -128,7 +129,7 @@ ATTEMPT_AUTO_PG_UPGRADE='true'
 
 # Make sure PostgreSQL is at the latest version.
 # If it fails, print a message with a workaround and exit
-if [ "${GITLAB_SKIP_PG_UPGRADE}" != 'true' -a "${ATTEMPT_AUTO_PG_UPGRADE}" != 'false' ]; then
+if [ "${GITLAB_SKIP_PG_UPGRADE}" != 'true' ] && [ "${ATTEMPT_AUTO_PG_UPGRADE}" != 'false' ]; then
     gitlab-ctl pg-upgrade -w --skip-disk-check || failed_pg_upgrade
 fi
 

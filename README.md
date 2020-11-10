@@ -1,10 +1,15 @@
 # GitLab CE for ARM
 
-[![pipeline status](https://gitlab.com/ravermeister/gitlab/badges/fork/master/pipeline.svg)](https://gitlab.com/ravermeister/gitlab/commits/fork/master) [![](https://images.microbadger.com/badges/version/ravermeister/armhf-gitlab.svg)](https://microbadger.com/images/ravermeister/armhf-gitlab "Get your own version badge on microbadger.com") [![](https://images.microbadger.com/badges/image/ravermeister/armhf-gitlab.svg)](https://microbadger.com/images/ravermeister/armhf-gitlab "Get your own image badge on microbadger.com") [![Docker Pulls](https://img.shields.io/docker/pulls/ravermeister/armhf-gitlab.svg)](https://hub.docker.com/r/ravermeister/armhf-gitlab/)
+[![pipeline status](https://gitlab.com/ravermeister/gitlab/badges/fork/master/pipeline.svg)](https://gitlab.com/ravermeister/gitlab/commits/fork/master)   
+ARM 32bit:  
+[![](https://images.microbadger.com/badges/version/ravermeister/armhf-gitlab.svg)](https://microbadger.com/images/ravermeister/armhf-gitlab "Get your own version badge on microbadger.com") [![](https://images.microbadger.com/badges/image/ravermeister/armhf-gitlab.svg)](https://microbadger.com/images/ravermeister/armhf-gitlab "Get your own image badge on microbadger.com") [![Docker Pulls](https://img.shields.io/docker/pulls/ravermeister/armhf-gitlab.svg)](https://hub.docker.com/r/ravermeister/armhf-gitlab/)  
+ARM 64bit:  
+[![](https://images.microbadger.com/badges/version/ravermeister/arm64-gitlab.svg)](https://microbadger.com/images/ravermeister/arm64-gitlab "Get your own version badge on microbadger.com") [![](https://images.microbadger.com/badges/image/ravermeister/arm64-gitlab.svg)](https://microbadger.com/images/ravermeister/arm64-gitlab "Get your own image badge on microbadger.com") [![Docker Pulls](https://img.shields.io/docker/pulls/ravermeister/arm64-gitlab.svg)](https://hub.docker.com/r/ravermeister/arm64-gitlab/)
 
 GitLab CE for ARM is in Docker Hub:
 
 - [ravermeister/armhf-gitlab](https://hub.docker.com/r/ravermeister/armhf-gitlab/)
+- [ravermeister/arm64-gitlab](https://hub.docker.com/r/ravermeister/arm64-gitlab/)
 
 The GitLab Docker image is a monolithic image of GitLab running all the necessary services on a single container.
 
@@ -13,7 +18,7 @@ The GitLab Docker image is a monolithic image of GitLab running all the necessar
 ### NOTES
 
 * This image provides default settings for it to work properly on ARM devices, which do not have a lot of RAM, you can review these settings [here](docker/assets/gitlab.rb) or use your own settings as explained in [Configure GitLab](#configure-gitlab). As a side note, *although is not advised,* you may still need to add a bit of SWAP (2GB recommended) to your device or have at least 2GB RAM, this can be achieved by using a USB Drive you have gathering dust somewhere; **DO NOT USE THE SD CARD FOR THIS TASK**.
-* This image does not apply sysctl parameters (see [wrapper file](docker/assets/wrapper#L90)), because it has been causing problems when starting in Docker Swarm, you can read the [reddit discussion](https://www.reddit.com/r/kubernetes/comments/7pr6r7/gitlab_ce_docker_image_for_arm/dtqemei/) about that. Get to the [Sysctl tunning](#sysctl-tunning) topic in order to know how to apply this on the host running GitLab.
+* This image does not apply sysctl parameters (see [wrapper file](/docker/assets/wrapper#L90)), because it has been causing problems when starting in Docker Swarm, you can read the [reddit discussion](https://www.reddit.com/r/kubernetes/comments/7pr6r7/gitlab_ce_docker_image_for_arm/dtqemei/) about that. Get to the [Sysctl tunning](#sysctl-tunning) topic in order to know how to apply this on the host running GitLab.
 
 ## The GitLab Docker image can be run in multiple ways:
 
