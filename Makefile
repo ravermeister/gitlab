@@ -4,14 +4,14 @@ export CE_TAG:=$(CE_VERSION)
 
 ifeq ($(TARGET), "arm64")
 	export IMAGE_NAME:="arm64-gitlab"
-	export IMAGE:="$(MAINTAINER)/$(IMAGE_NAME)"
 	export ARCHS:="ARM64v8 or later"
-	export DOCKERFILE:="docker/Dockerfile.arm64"
+	export DOCKERFILE:="docker/arm64.dockerfile"
+	export IMAGE:=$(MAINTAINER)/$(IMAGE_NAME)
 else
 	export IMAGE_NAME:="armhf-gitlab"
-	export IMAGE:="$(MAINTAINER)/$(IMAGE_NAME)"
 	export ARCHS:="ARM32v7 or later"
-	export DOCKERFILE:="docker/Dockerfile.armhf"
+	export DOCKERFILE:="docker/armhf.dockerfile"
+	export IMAGE:=$(MAINTAINER)/$(IMAGE_NAME)
 endif
 
 # ifeq ($(CI_COMMIT_REF_NAME), "master")
