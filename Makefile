@@ -2,7 +2,7 @@ export MAINTAINER:=ravermeister
 export CE_VERSION:=$(shell ./ci/version)
 export CE_TAG:=$(CE_VERSION)
 
-ifeq ($(TARGET), "arm64")
+ifeq ($(TARGET), arm64)
 	export ARCHS:="ARM64v8 or later"
 	export DOCKERFILE:=docker/arm64.dockerfile
 	export IMAGE_NAME:=arm64-gitlab
