@@ -17,6 +17,8 @@ else
   DOWNLOAD_URL=${DOWNLOAD_URL_ARMHF}
   RELEASE_VERSION=${RELEASE_VERSION_ARMHF}
 fi
+echo "Configured >$1< env is"
+env
 /assets/download-package
 
 dpkg -i /tmp/gitlab.deb
