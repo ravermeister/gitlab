@@ -3,7 +3,7 @@ LABEL maintainer="Jonny Rimkus <jonny@rimkus.it>"
 SHELL ["/bin/sh", "-c"]
 ENV LANG=C.UTF-8
 # Install required packages
-RUN 1set -eux; \
+RUN set -eux; \
     export DEBIAN_FRONTEND=noninteractive &&\
     apt-get update -q &&\
     apt-get install -yq apt-utils &&\
