@@ -19,46 +19,49 @@ snapshot_arm32:
   extends: .imgjob
   stage: snapshot
   allow_failure: true
+  variables:
+    TARGET: armhf
   only:
     - branches
   except:
     - master
     - fork/master
   script:
-    - TARGET="armhf"
     - make build
 
 snapshot_arm64:
   extends: .imgjob
   stage: snapshot
   allow_failure: true
+  variables:
+    TARGET: arm64
   only:
     - branches
   except:
     - master
     - fork/master
   script:
-    - TARGET="arm64"
     - make build
 
 release_arm32:
   extends: .imgjob
   stage: release
+  variables:
+    TARGET: armhf
   only:
     - master
     - fork/master
   script:
-    - TARGET="armhf"
     - make all
     - curl -sX POST https://hooks.microbadger.com/images/ravermeister/armhf-gitlab/o9VyWZVOg4SYqB_BC57qn5Sm26Q=
 
 release_arm64:
   extends: .imgjob
   stage: release
+  variables:
+    TARGET: arm64
   only:
     - fork/master
   script:
-    - TARGET="arm64"
     - make all
     - curl -sX POST https://hooks.microbadger.com/images/ravermeister/arm64-gitlab/o9VyWZVOg4SYqB_BC57qn5Sm26Q=
-
