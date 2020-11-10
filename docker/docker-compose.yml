@@ -1,7 +1,7 @@
 version: "2.4"
 services:
   web:
-    image: 'ravermeister/gitlab'
+    image: 'ravermeister/armhf-gitlab'
     restart: always
     hostname: 'gitlab.example.com'
     environment:

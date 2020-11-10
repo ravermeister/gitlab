@@ -1,11 +1,12 @@
-FROM arm32v7/ubuntu
+FROM arm32v7/debian
 LABEL maintainer="Jonny Rimkus <jonny@rimkus.it>"
 SHELL ["/bin/sh", "-c"]
 ENV LANG=C.UTF-8
 # Install required packages
 RUN set -eux; \
-    apt-get update -q \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
+    export DEBIAN_FRONTEND=noninteractive &&\
+    apt-get update -q &&\
+    apt-get install -yq --no-install-recommends \
       apt-transport-https \
       ca-certificates \
       less \
@@ -23,7 +24,7 @@ RUN set -eux; \
 # Copy assets
 COPY RELEASE /
 COPY assets/ /assets/
-RUN /assets/setup
+RUN /assets/setup armhf
 # Allow to access embedded tools
 ENV PATH /opt/gitlab/embedded/bin:/opt/gitlab/bin:/assets:$PATH
 # Resolve error: TERM environment variable not set.

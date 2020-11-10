@@ -2,11 +2,24 @@
 
 set -e
 
-source /etc/lsb-release
+if [ -f /etc/lsb-release ]; then
+  source /etc/lsb-release
+else
+  source /etc/os-release
+fi
 source /RELEASE
 
 # Install GitLab
-DOWNLOAD_URL=${DOWNLOAD_URL} RELEASE_VERSION=${RELEASE_VERSION} /assets/download-package
+if [ "$1" = "arm64" ]; then
+  export DOWNLOAD_URL=${DOWNLOAD_URL_ARM64}
+  export RELEASE_VERSION=${RELEASE_VERSION_ARM64}
+else
+  export DOWNLOAD_URL=${DOWNLOAD_URL_ARMHF}
+  export RELEASE_VERSION=${RELEASE_VERSION_ARMHF}
+fi
+
+/assets/download-package
+
 dpkg -i /tmp/gitlab.deb
 rm -f /tmp/gitlab.deb
 rm -rf /var/lib/apt/lists/*

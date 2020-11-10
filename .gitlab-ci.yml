@@ -15,25 +15,50 @@ stages:
     - mkdir utils
     - apk add --no-cache make bash curl
 
-build_test:
+snapshot_arm32:
   extends: .imgjob
   stage: snapshot
+  allow_failure: true
   only:
     - branches
   except:
     - master
     - fork/master
   script:
+    - TARGET="armhf"
     - make build
-  allow_failure: true
 
-build_release:
+snapshot_arm64:
+  extends: .imgjob
+  stage: snapshot
+  allow_failure: true
+  only:
+    - branches
+  except:
+    - master
+    - fork/master
+  script:
+    - TARGET="arm64"
+    - make build
+
+release_arm32:
   extends: .imgjob
   stage: release
   only:
     - master
     - fork/master
   script:
+    - TARGET="armhf"
     - make all
     - curl -sX POST https://hooks.microbadger.com/images/ravermeister/armhf-gitlab/o9VyWZVOg4SYqB_BC57qn5Sm26Q=
+
+release_arm64:
+  extends: .imgjob
+  stage: release
+  only:
+    - fork/master
+  script:
+    - TARGET="arm64"
+    - make all
+    - curl -sX POST https://hooks.microbadger.com/images/ravermeister/arm64-gitlab/o9VyWZVOg4SYqB_BC57qn5Sm26Q=
 
