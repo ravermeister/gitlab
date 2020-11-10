@@ -3,7 +3,7 @@
 set -eo pipefail
 
 _docker(){
-    docker ${@}
+    docker "${@}"
 }
 
 tag() {
@@ -28,7 +28,10 @@ if [[ "${CI_COMMIT_REF_NAME}" == "master" || "${CI_COMMIT_REF_NAME}" == "fork/ma
     tag "${IMAGE}:${CE_TAG}" "${IMAGE}:latest"
 fi
 
-if [[ -n "${CI_REGISTRY}" ]] && [[ -n "${CI_REGISTRY_IMAGE}" ]]; then
+if [[ -n "${CI_REGISTRY}" ]] && [[ -n "${CI_REGISTRY_USER}" ]]; then
+
+    CI_REGISTRY_IMAGE="${CI_REGISTRY}/${CI_REGISTRY_USER}/${IMAGE_NAME}"
+
     tag "${IMAGE}:${CE_VERSION}" "${CI_REGISTRY_IMAGE}:${CE_VERSION}"
     tag "${IMAGE}:${CE_VERSION}" "${CI_REGISTRY_IMAGE}:latest"
 

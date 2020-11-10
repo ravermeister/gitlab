@@ -23,7 +23,7 @@ RUN set -eux; \
 # Copy assets
 COPY RELEASE /
 COPY assets/ /assets/
-RUN /assets/setup
+RUN /assets/setup armhf
 # Allow to access embedded tools
 ENV PATH /opt/gitlab/embedded/bin:/opt/gitlab/bin:/assets:$PATH
 # Resolve error: TERM environment variable not set.

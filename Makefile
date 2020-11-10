@@ -1,9 +1,18 @@
 export MAINTAINER:=ravermeister
-export NAME:=gitlab
-export IMAGE:=$(MAINTAINER)/$(NAME)
-export CE_VERSION:=$(shell ./ci/version)
+export CE_VERSION:="$(shell ./ci/version)"
 export CE_TAG:=$(CE_VERSION)
-export ARCHS:=ARMv7 or later
+
+ifeq ($(TARGET), "arm64")
+	export IMAGE_NAME:="arm64-gitlab"
+	export IMAGE:="$(MAINTAINER)/$(IMAGE_NAME)"
+	export ARCHS:="ARM64v8 or later"
+	export DOCKERFILE:="docker/Dockerfile.arm64"
+else
+	export IMAGE_NAME:="armhf-gitlab"
+	export IMAGE:="$(MAINTAINER)/$(IMAGE_NAME)"
+	export ARCHS:="ARM32v7 or later"
+	export DOCKERFILE:="docker/Dockerfile.armhf"
+endif
 
 # ifeq ($(CI_COMMIT_REF_NAME), "master")
 # 	export CE_TAG=$(CE_VERSION)
