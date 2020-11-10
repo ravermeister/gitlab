@@ -31,6 +31,7 @@ help:
 
 version: FORCE
 	@echo "---"
+	@echo Target: $(TARGET)
 	@echo Version: $(CE_VERSION)
 	@echo Image: $(IMAGE):$(CE_TAG)
 	@echo Platorms: $(ARCHS)
