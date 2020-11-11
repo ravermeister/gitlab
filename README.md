@@ -1,6 +1,5 @@
 # GitLab CE for ARM
-
-[![pipeline status](https://gitlab.com/ravermeister/gitlab/badges/fork/master/pipeline.svg)](https://gitlab.com/ravermeister/gitlab/commits/fork/master)   
+ 
 ARM 32bit:  
 [![](https://images.microbadger.com/badges/version/ravermeister/armhf-gitlab.svg)](https://microbadger.com/images/ravermeister/armhf-gitlab "Get your own version badge on microbadger.com") [![](https://images.microbadger.com/badges/image/ravermeister/armhf-gitlab.svg)](https://microbadger.com/images/ravermeister/armhf-gitlab "Get your own image badge on microbadger.com") [![Docker Pulls](https://img.shields.io/docker/pulls/ravermeister/armhf-gitlab.svg)](https://hub.docker.com/r/ravermeister/armhf-gitlab/)  
 ARM 64bit:  
