@@ -10,14 +10,12 @@ GitLab CE for ARM is in Docker Hub:
 - [ravermeister/armhf-gitlab](https://hub.docker.com/r/ravermeister/armhf-gitlab/)
 - [ravermeister/arm64-gitlab](https://hub.docker.com/r/ravermeister/arm64-gitlab/)
 
-The GitLab Docker image is a monolithic image of GitLab running all the necessary services on a single container.
-
-**GitLab only offers the Community Edition for Raspbery Pi**, this Docker image is based on that one; in addition, **only stable builds are containerized**.
-
 ### NOTES
-
-* This image provides default settings for it to work properly on ARM devices, which do not have a lot of RAM, you can review these settings [here](docker/assets/gitlab.rb) or use your own settings as explained in [Configure GitLab](#configure-gitlab). As a side note, *although is not advised,* you may still need to add a bit of SWAP (2GB recommended) to your device or have at least 2GB RAM, this can be achieved by using a USB Drive you have gathering dust somewhere; **DO NOT USE THE SD CARD FOR THIS TASK**.
-* This image does not apply sysctl parameters (see [wrapper file](/docker/assets/wrapper#L90)), because it has been causing problems when starting in Docker Swarm, you can read the [reddit discussion](https://www.reddit.com/r/kubernetes/comments/7pr6r7/gitlab_ce_docker_image_for_arm/dtqemei/) about that. Get to the [Sysctl tunning](#sysctl-tunning) topic in order to know how to apply this on the host running GitLab.
+* The GitLab Docker image is a monolithic image of GitLab running all the necessary services on a single container.
+* **GitLab only offers the Community Edition for Raspbery Pi**, this Docker images are based on that one; in addition, **only stable builds are containerized**.
+* If you wish to use the new arm64 bit version, replace all occurences of `ravermeister/armhf-gitlab` with `ravermeister/arm64-gitlab` in this README
+* This images provides default settings for it to work properly on ARM devices, which do not have a lot of RAM, you can review these settings [here](docker/assets/gitlab.rb) or use your own settings as explained in [Configure GitLab](#configure-gitlab). As a side note, *although is not advised,* you may still need to add a bit of SWAP (2GB recommended) to your device or have at least 2GB RAM, this can be achieved by using a USB Drive you have gathering dust somewhere; **DO NOT USE THE SD CARD FOR THIS TASK**.
+* This images does not apply sysctl parameters (see [wrapper file](/docker/assets/wrapper#L90)), because it has been causing problems when starting in Docker Swarm, you can read the [reddit discussion](https://www.reddit.com/r/kubernetes/comments/7pr6r7/gitlab_ce_docker_image_for_arm/dtqemei/) about that. Get to the [Sysctl tunning](#sysctl-tunning) topic in order to know how to apply this on the host running GitLab.
 
 ## The GitLab Docker image can be run in multiple ways:
 
@@ -35,7 +33,7 @@ Run the image:
 
 ```bash
 docker run -d \
---hostname gitlab.example.com \
+hostname gitlab.example.com \
 -p 443:443 -p 80:80 -p 22:22 \
 --name gitlab \
 --restart always \
