@@ -4,21 +4,16 @@ ifeq ($(TARGET), arm64)
 	export ARCHS:="ARM64v8 or later"
 	export DOCKERFILE:=docker/arm64.dockerfile
 	export IMAGE_NAME:=arm64-gitlab
-	export IMAGE:=$(MAINTAINER)/$(IMAGE_NAME)
 	export CE_VERSION:=$(shell ./ci/version arm64)
-	export CE_TAG:=$(CE_VERSION)
 else
 	export ARCHS:="ARM32v7 or later"
 	export DOCKERFILE:=docker/armhf.dockerfile
 	export IMAGE_NAME:=armhf-gitlab
-	export IMAGE:=$(MAINTAINER)/$(IMAGE_NAME)
 	export CE_VERSION:=$(shell ./ci/version armhf)
-	export CE_TAG:=$(CE_VERSION)
 endif
 
-# ifeq ($(CI_COMMIT_REF_NAME), "master")
-# 	export CE_TAG=$(CE_VERSION)
-# endif
+export IMAGE:=$(MAINTAINER)/$(IMAGE_NAME)
+export CE_TAG:=$(CE_VERSION)
 
 all: version build push
 
