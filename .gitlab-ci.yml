@@ -45,21 +45,16 @@ release_arm32:
   extends: .imgjob
   stage: release
   only:
-    - master
     - fork/master
   script:
     - export TARGET="armhf"
     - make all
-    - curl -sX POST https://hooks.microbadger.com/images/ravermeister/${TARGET}-gitlab/o9VyWZVOg4SYqB_BC57qn5Sm26Q=
 
 release_arm64:
   extends: .imgjob
   stage: release
-  variables:
-    TARGET: arm64
   only:
     - fork/master
   script:
     - export TARGET="arm64"
     - make all
-    - curl -sX POST https://hooks.microbadger.com/images/ravermeister/${TARGET}-gitlab/P8plDIlkQ9bkUrnAPR5ijErM0RI=
