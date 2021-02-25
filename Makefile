@@ -3,15 +3,14 @@ export MAINTAINER:=ravermeister
 ifeq ($(TARGET), arm64)
 	export ARCHS:="ARM64v8 or later"
 	export DOCKERFILE:=docker/arm64.dockerfile
-	export IMAGE_NAME:=arm64-gitlab
 	export CE_VERSION:=$(shell ./ci/version arm64)
 else
 	export ARCHS:="ARM32v7 or later"
 	export DOCKERFILE:=docker/armhf.dockerfile
-	export IMAGE_NAME:=armhf-gitlab
 	export CE_VERSION:=$(shell ./ci/version armhf)
 endif
 
+export IMAGE_NAME:=gitlab
 export IMAGE:=$(MAINTAINER)/$(IMAGE_NAME)
 export CE_TAG:=$(CE_VERSION)
 
