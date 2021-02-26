@@ -38,6 +38,8 @@ production:
   script:
     - export TARGET="armhf"
     - make build
+    - export TAGLIST=$(echo -n "${TARGET}-${CE_TAG}" | tr -d [:space:])
     - export TARGET="arm64"
     - make build
+    - export TAGLIST=$(echo -n "${TAGLIST} ${TARGET}-${CE_TAG}" | tr -d [:space:])
     - make push-manifest
