@@ -15,7 +15,7 @@ ENV LANG=C.UTF-8
 #    && rm -rf /etc/update-motd.d /etc/motd /etc/motd.dynamic \
 #    && ln -fs /dev/null /run/motd.dynamic
 # Copy assets
-COPY RELEASE_ARM64 /
+COPY RELEASE_ARM64 /RELEASE
 COPY assets/ /assets/
 RUN /assets/setup arm64
 # Allow to access embedded tools
