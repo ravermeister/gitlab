@@ -14,6 +14,7 @@ stages:
   before_script:
     - mkdir utils
     - apk add --no-cache make bash curl
+    - echo -n "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin "${CI_REGISTRY}"
 
 dev_build:
   extends: .imgjob
@@ -38,8 +39,12 @@ prod_build:
   script:
     - export TARGET="armhf"
     - make build
+    - docker manifest create "${IMAGE}:${CE_TAG}" "${IMAGE}:${TARGET}"
+    - docker manifest create "${IMAGE}:latest" "${IMAGE}:${TARGET}"
     - export TARGET="arm64"
     - make build
+    - docker manifest annotate "${IMAGE}:${CE_TAG}" "${IMAGE}:${TARGET}"
+    - docker manifest annotate "${IMAGE}:latest" "${IMAGE}:${TARGET}"
 
 prod_release:
   extends: .imgjob
@@ -47,4 +52,5 @@ prod_release:
   only:
     - fork/master
   script:
-    - make publish
+    - docker manifest push "${IMAGE}:${CE_TAG}"
+    - docker manifest push "${IMAGE}:latest"
