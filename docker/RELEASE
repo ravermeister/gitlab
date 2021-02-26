@@ -1,4 +1,4 @@
-RELEASE_VERSION_ARM64="gitlab-ce_${CE_VERSION}-ce.0"
-RELEASE_VERSION_ARMHF="gitlab-ce_${CE_VERSION}-ce.0"
+RELEASE_VERSION_ARM64="gitlab-ce_CE_VERSION_ARM64-ce.0"
+RELEASE_VERSION_ARMHF="gitlab-ce_CE_VERSION_ARMHF-ce.0"
 DOWNLOAD_URL_ARMHF="https://packages.gitlab.com/gitlab/raspberry-pi2/packages/raspbian/buster/${RELEASE_VERSION_ARMHF}_armhf.deb/download.deb"
 DOWNLOAD_URL_ARM64="https://packages.gitlab.com/gitlab/gitlab-ce/packages/ubuntu/focal/${RELEASE_VERSION_ARM64}_arm64.deb/download.deb"
