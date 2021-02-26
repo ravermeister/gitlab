@@ -12,7 +12,15 @@ build() {
 }
 
 # Set the version to install
-sed -i -e 's/CE_VERSION/'"$CE_VERSION"'/g' docker/RELEASE
+if [ "$TARGET" = "arm64" ]; then
+    RELEASE_FILE="docker/RELEASE_ARM64"
+else if[ "$TARGET" = "armhf" ]; then
+    RELEASE_FILE="docker/RELEASE_ARMHF"
+else
+    echo "unkown architecture >$TARGET<" >&2
+    exit 1
+fi
+sed -i -e 's/CE_VERSION/'"$CE_VERSION"'/g' "$RELEASE_FILE"
 
 # Build the actual image
 build "${IMAGE}:${TARGET}" "${IMAGE}:${CE_TAG}" "${DOCKERFILE}" docker/
