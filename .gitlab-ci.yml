@@ -1,5 +1,5 @@
 stages:
-  - build
+  - snapshot
   - release
 
 .imgjob:
@@ -17,9 +17,9 @@ stages:
     - apk add --no-cache make bash curl
     - echo -n "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin "${CI_REGISTRY}"
 
-dev_build:
+develop:
   extends: .imgjob
-  stage: build
+  stage: snapshot
   allow_failure: true
   only:
     - branches
@@ -32,26 +32,14 @@ dev_build:
     - export TARGET="arm64"
     - make build
 
-prod_build:
-  extends: .imgjob
-  stage: build
-  only:
-    - fork/master
-  script:
-    - export TARGET="armhf"
-    - make build
-    - docker manifest create "${IMAGE}:${CE_TAG}" "${IMAGE}:${TARGET}"
-    - docker manifest create "${IMAGE}:latest" "${IMAGE}:${TARGET}"
-    - export TARGET="arm64"
-    - make build
-    - docker manifest annotate "${IMAGE}:${CE_TAG}" "${IMAGE}:${TARGET}"
-    - docker manifest annotate "${IMAGE}:latest" "${IMAGE}:${TARGET}"
-
-prod_release:
+production:
   extends: .imgjob
   stage: release
   only:
     - fork/master
   script:
-    - docker manifest push "${IMAGE}:${CE_TAG}"
-    - docker manifest push "${IMAGE}:latest"
+    - export TARGET="armhf"
+    - make build
+    - export TARGET="arm64"
+    - make build
+    - make publish-manifest
