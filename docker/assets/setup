@@ -18,10 +18,10 @@ elif [ "$1" = "armhf" ]; then
   export RELEASE_VERSION=${RELEASE_VERSION_ARMHF}
 else
   echo "unknown architecture >$1<" >&2
-  exit 0
+  exit 1
 fi
 echo ">>>$RELEASE_VERSION"
-exit 1
+exit 0
 /assets/download-package
 
 dpkg -i /tmp/gitlab.deb
