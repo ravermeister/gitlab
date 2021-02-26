@@ -26,6 +26,3 @@ sed -i -e 's/CE_VERSION/'"$CE_VERSION"'/g' "$RELEASE_FILE"
 
 # Build the actual image
 build "${PLATFORM}" "${IMAGE}:${TARGET}" "${IMAGE}:${CE_TAG}" "${DOCKERFILE}" docker/
-
-#update tag variables
-export TAGLIST=$(echo -n "$TAGLIST ${TARGET}-${CE_TAG}" | tr -d [:space:])
