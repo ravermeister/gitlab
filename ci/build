@@ -18,16 +18,16 @@ sed -i -e 's/CE_VERSION/'"$CE_VERSION"'/g' docker/RELEASE
 build "${IMAGE}:${TARGET}" "${DOCKERFILE}" docker/
 
 # create or update the docker manifest
-if [ "$MANIFEST_LATEST" != "latest" ]; then
-    export "$MANIFEST_LATEST = "latest"
+if [ "${MANIFEST_LATEST}" != "latest" ]; then
+    export MANIFEST_LATEST = "latest"
     MANIFEST_LATEST_COMMAND="create"
 else
     MANIFEST_LATEST_COMMAND="annotate"
 fi
 
-if [ "$MANIFEST_VERSION" != "${CE_TAG}" ]; then
-    export "$MANIFEST_VERSION"="${CE_TAG}"
-    export "$MANIFEST_VERSION_LIST"="$(${MANIFEST_VERSION_LIST} ${CE_TAG} | tr -d [:space:])"
+if [ "${MANIFEST_VERSION}" != "${CE_TAG}" ]; then
+    export "MANIFEST_VERSION"="${CE_TAG}"
+    export "MANIFEST_VERSION_LIST"="$(${MANIFEST_VERSION_LIST} ${CE_TAG} | tr -d [:space:])"
     MANIFEST_VERSION_COMMAND = "create"
 else
     MANIFEST_VERSION_COMMAND = "annotate"
