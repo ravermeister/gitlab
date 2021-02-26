@@ -7,8 +7,8 @@ _docker(){
 }
 
 build() {
-    echo -e "\033[1mBuilding image: \033[32m${2}\033[0m"
-    _docker build --no-cache --force-rm --compress --platform "${$1}" -t "${2}" -t "${3}" -f "${4}" "${5}"
+    echo -e "\033[1mBuilding image: \033[32m${3}\033 for \033[32m${1}\033[0m"
+    _docker build --no-cache --force-rm --compress --platform "${1}" -t "${2}" -t "${3}" -f "${4}" "${5}"
 }
 
 # Set the version to install
