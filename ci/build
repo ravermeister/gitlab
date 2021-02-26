@@ -15,4 +15,4 @@ build() {
 sed -i -e 's/CE_VERSION/'"$CE_VERSION"'/g' docker/RELEASE
 
 # Build the actual image
-build "${IMAGE}:${CE_TAG}" "${DOCKERFILE}" docker/
+build "${IMAGE}:${ARCHS}" "${DOCKERFILE}" docker/
