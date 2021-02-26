@@ -8,15 +8,9 @@ else
   source /etc/os-release
 fi
 
+source /RELEASE
+
 # Install GitLab
-if [ "$1" = "arm64" ]; then
-  source /RELEASE_ARM64
-elif [ "$1" = "armhf" ]; then
-  source /RELEASE_ARMHF
-else
-  echo "unknown architecture >$1<" >&2
-  exit 1
-fi
 export $DOWNLOAD_URL
 export $RELEASE_VERSION
 echo ">>>$RELEASE_VERSION"
