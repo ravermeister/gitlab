@@ -44,7 +44,7 @@ push:
 	@./ci/release
 	
 push-manifest:
-	# create manifest and to Registries
+	# create manifest and push to Registries
 	@./ci/release-manifest
 
 
