@@ -7,15 +7,17 @@ _docker(){
 }
 
 build() {
-    echo -e "\033[1mBuilding image: \033[32m${1}\033[0m"
-    _docker build --no-cache --force-rm --compress -t "${1}" -t "${2}" -f "${3}" "${4}"
+    echo -e "\033[1mBuilding image: \033[32m${2}\033[0m"
+    _docker build --no-cache --force-rm --compress --platform "${PLATFORM}" -t "${1}" -t "${2}" -f "${3}" "${4}"
 }
 
 # Set the version to install
 if [ "$TARGET" = "arm64" ]; then
     RELEASE_FILE="docker/RELEASE_ARM64"
+    PLATFORM="linux/arm64"
 elif [ "$TARGET" = "armhf" ]; then
     RELEASE_FILE="docker/RELEASE_ARMHF"
+    PLATFORM="linux/arm"
 else
     echo "unkown architecture >$TARGET<" >&2
     exit 1
@@ -23,7 +25,7 @@ fi
 sed -i -e 's/CE_VERSION/'"$CE_VERSION"'/g' "$RELEASE_FILE"
 
 # Build the actual image
-build "${IMAGE}:${TARGET}" "${IMAGE}:${CE_TAG}" "${DOCKERFILE}" docker/
+build "${PLATFORM}" "${IMAGE}:${TARGET}" "${IMAGE}:${CE_TAG}" "${DOCKERFILE}" docker/
 
 #update tag variables
 export TAGLIST=$(echo -n "$TAGLIST ${TARGET}-${CE_TAG}" | tr -d [:space:])
