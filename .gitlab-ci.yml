@@ -1,5 +1,4 @@
 stages:
-  - snapshot
   - release
 
 .imgjob:
@@ -19,7 +18,7 @@ stages:
 
 develop:
   extends: .imgjob
-  stage: snapshot
+  stage: release
   allow_failure: true
   only:
     - branches
