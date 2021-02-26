@@ -3,9 +3,10 @@ stages:
   - release
 
 .imgjob:
-  image: docker:stable
+  image: docker
   services:
-    - docker:stable-dind
+    - name: docker:dind
+      command: ["--experimental"]
   variables:
     DOCKER_DRIVER: overlay2
   tags:
