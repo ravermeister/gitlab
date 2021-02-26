@@ -22,8 +22,9 @@ logout() {
 if [[ -n "${CI_REGISTRY}" ]] && [[ -n "${CI_REGISTRY_USER}" ]]; then
 
     CI_REGISTRY_IMAGE="${CI_REGISTRY}/${CI_REGISTRY_USER}/${IMAGE_NAME}"
-    
+    echo "TAGLIST: ${TAGLIST}"
     for TAG in "${TAGLIST}"; do
+        echo ">>TAG: ${TAG}"
         TARGET="$($TAG | cut -d "-" -f1)"
         VERSION="$($TAG | cut -d "-" -f2)"
 
