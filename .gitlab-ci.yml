@@ -1,5 +1,5 @@
 stages:
-  - snapshot
+  - build
   - release
 
 .imgjob:
@@ -15,9 +15,9 @@ stages:
     - mkdir utils
     - apk add --no-cache make bash curl
 
-snapshot_arm32:
+dev_build:
   extends: .imgjob
-  stage: snapshot
+  stage: build
   allow_failure: true
   only:
     - branches
@@ -27,34 +27,24 @@ snapshot_arm32:
   script:
     - export TARGET="armhf"
     - make build
-
-snapshot_arm64:
-  extends: .imgjob
-  stage: snapshot
-  allow_failure: true
-  only:
-    - branches
-  except:
-    - master
-    - fork/master
-  script:
     - export TARGET="arm64"
     - make build
 
-release_arm32:
+prod_build:
   extends: .imgjob
-  stage: release
+  stage: build
   only:
     - fork/master
   script:
     - export TARGET="armhf"
-    - make all
+    - make build
+    - export TARGET="arm64"
+    - make build
 
-release_arm64:
+prod_release:
   extends: .imgjob
   stage: release
   only:
     - fork/master
   script:
-    - export TARGET="arm64"
-    - make all
+    - make publish
