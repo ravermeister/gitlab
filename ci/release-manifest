@@ -27,18 +27,18 @@ if [[ -n "${CI_REGISTRY}" ]] && [[ -n "${CI_REGISTRY_USER}" ]]; then
         TARGET="$($TAG | cut -d "-" -f1)"
         VERSION="$($TAG | cut -d "-" -f2)"
 
-        _docker manifest create -a "${CI_REGISTRY_IMAGE}:latest" "${IMAGE}:${TARGET}" "${IMAGE}:${VERSION}"
-        _docker manifest create -a "${CI_REGISTRY_IMAGE}:${$VERSION}" "${IMAGE}:${TARGET}" "${IMAGE}:${VERSION}"
+        echo _docker manifest create -a "${CI_REGISTRY_IMAGE}:latest" "${IMAGE}:${TARGET}" "${IMAGE}:${VERSION}"
+        echo _docker manifest create -a "${CI_REGISTRY_IMAGE}:${$VERSION}" "${IMAGE}:${TARGET}" "${IMAGE}:${VERSION}"
     done
 
     if [[ -n "${CI_REGISTRY_USER}" ]] && [[ -n "${CI_REGISTRY_PASSWORD}" ]]; then
         login "${CI_REGISTRY_USER}" "${CI_REGISTRY_PASSWORD}" "${CI_REGISTRY}"
 
-        push "${CI_REGISTRY_IMAGE}:latest"
+        echo push "${CI_REGISTRY_IMAGE}:latest"
         for TAG in "${TAGLIST}"; do
             TARGET="$($TAG | cut -d "-" -f1)"
             VERSION="$($TAG | cut -d "-" -f2)"
-            push "${CI_REGISTRY_IMAGE}:${VERSION}"
+            echo push "${CI_REGISTRY_IMAGE}:${VERSION}"
         done
 
         logout "${CI_REGISTRY}"
