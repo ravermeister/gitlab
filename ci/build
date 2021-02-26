@@ -16,3 +16,12 @@ sed -i -e 's/CE_VERSION/'"$CE_VERSION"'/g' docker/RELEASE
 
 # Build the actual image
 build "${IMAGE}:${CE_TAG}" "${DOCKERFILE}" docker/
+
+# create or update the docker manifest
+if [ "$MANIFEST_COMMAND" = "create" ]; then
+    _docker manifest create "${IMAGE}:${CE_TAG}" "${IMAGE}:${TARGET}"
+    _docker manifest create "${IMAGE}:latest" "${IMAGE}:${TARGET}"
+else if[ "$MANIFEST_COMMAND" = "update" ]; then
+    _docker manifest annotate "${IMAGE}:${CE_TAG}" "${IMAGE}:${TARGET}"
+    _docker manifest annotate "${IMAGE}:latest" "${IMAGE}:${TARGET}"
+fi
