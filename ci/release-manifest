@@ -28,7 +28,7 @@ if [[ -n "${CI_REGISTRY}" ]] && [[ -n "${CI_REGISTRY_USER}" ]]; then
         VERSION="$($TAG | cut -d "-" -f2)"
 
         echo _docker manifest create -a "${CI_REGISTRY_IMAGE}:latest" "${IMAGE}:${TARGET}" "${IMAGE}:${VERSION}"
-        echo _docker manifest create -a "${CI_REGISTRY_IMAGE}:${$VERSION}" "${IMAGE}:${TARGET}" "${IMAGE}:${VERSION}"
+        echo _docker manifest create -a "${CI_REGISTRY_IMAGE}:${VERSION}" "${IMAGE}:${TARGET}" "${IMAGE}:${VERSION}"
     done
 
     if [[ -n "${CI_REGISTRY_USER}" ]] && [[ -n "${CI_REGISTRY_PASSWORD}" ]]; then
