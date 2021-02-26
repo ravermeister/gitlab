@@ -15,6 +15,7 @@ export IMAGE:=$(MAINTAINER)/$(IMAGE_NAME)
 export CE_TAG:=$(CE_VERSION)
 
 all: version build push
+compile: version build
 
 help:
 	# General commands:
