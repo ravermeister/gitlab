@@ -20,7 +20,8 @@ else
   echo "unknown architecture >$1<" >&2
   exit 1
 fi
-
+echo ">>>$RELEASE_VERSION"
+exit 1
 /assets/download-package
 
 dpkg -i /tmp/gitlab.deb
