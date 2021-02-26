@@ -11,8 +11,8 @@ fi
 source /RELEASE
 
 # Install GitLab
-export $DOWNLOAD_URL
-export $RELEASE_VERSION
+#export DOWNLOAD_URL="$DOWNLOAD_URL"
+#export RELEASE_VERSION="$RELEASE_VERSION"
 echo ">>>$RELEASE_VERSION"
 exit 0
 /assets/download-package
