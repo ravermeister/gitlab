@@ -8,30 +8,14 @@ _docker(){
 
 build() {
     echo -e "\033[1mBuilding image: \033[32m${1}\033[0m"
-    _docker build --no-cache --force-rm --compress -t "${1}" -f "${2}" "${3}"
+    _docker build --no-cache --force-rm --compress -t "${1}" -t "${2}" -f "${3}" "${4}"
 }
 
 # Set the version to install
 sed -i -e 's/CE_VERSION/'"$CE_VERSION"'/g' docker/RELEASE
 
 # Build the actual image
-build "${IMAGE}:${TARGET}" "${DOCKERFILE}" docker/
+build "${IMAGE}:${TARGET}" "${IMAGE}:${CE_TAG}" "${DOCKERFILE}" docker/
 
-# create or update the docker manifest
-if [ "${MANIFEST_LATEST}" != "latest" ]; then
-    export MANIFEST_LATEST = "latest"
-    MANIFEST_LATEST_COMMAND="create"
-else
-    MANIFEST_LATEST_COMMAND="annotate"
-fi
-
-if [ "${MANIFEST_VERSION}" != "${CE_TAG}" ]; then
-    export "MANIFEST_VERSION"="${CE_TAG}"
-    export "MANIFEST_VERSION_LIST"="$(${MANIFEST_VERSION_LIST} ${CE_TAG} | tr -d [:space:])"
-    MANIFEST_VERSION_COMMAND = "create"
-else
-    MANIFEST_VERSION_COMMAND = "annotate"
-fi
-
-_docker manifest "$MANIFEST_VERSION_COMMAND" "${IMAGE}:${CE_TAG}" "${IMAGE}:${TARGET}"
-_docker manifest "$MANIFEST_LATEST_COMMAND" "${IMAGE}:latest" "${IMAGE}:${TARGET}"
+#update tag variables
+TAGLIST="$($TAGLIST ${TARGET}-${CE_TAG} | tr -d [:space:])"
