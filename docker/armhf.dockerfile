@@ -3,17 +3,17 @@ LABEL maintainer="Jonny Rimkus <jonny@rimkus.it>"
 SHELL ["/bin/sh", "-c"]
 ENV LANG=C.UTF-8
 # Install required packages
-#RUN set -eux; \
-#    export DEBIAN_FRONTEND=noninteractive &&\
-#    apt-get update -q &&\
-#    apt-get install -yq --no-install-recommends \
-#      apt-transport-https ca-certificates less nano openssh-server \
-#      tzdata libatomic1 vim wget \
-#    && rm -rf /var/lib/apt/lists/* \
-#    && sed 's/session\s*required\s*pam_loginuid.so/session optional pam_loginuid.so/g' -i /etc/pam.d/sshd \
-#    # Remove MOTD
-#    && rm -rf /etc/update-motd.d /etc/motd /etc/motd.dynamic \
-#    && ln -fs /dev/null /run/motd.dynamic
+RUN set -eux; \
+    export DEBIAN_FRONTEND=noninteractive &&\
+    apt-get update -q &&\
+    apt-get install -yq --no-install-recommends \
+      apt-transport-https ca-certificates less nano openssh-server \
+      tzdata libatomic1 vim wget \
+    && rm -rf /var/lib/apt/lists/* \
+    && sed 's/session\s*required\s*pam_loginuid.so/session optional pam_loginuid.so/g' -i /etc/pam.d/sshd \
+    # Remove MOTD
+    && rm -rf /etc/update-motd.d /etc/motd /etc/motd.dynamic \
+    && ln -fs /dev/null /run/motd.dynamic
 # Copy assets
 COPY RELEASE_ARMHF /RELEASE
 COPY assets/ /assets/
