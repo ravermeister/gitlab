@@ -1,2 +1,2 @@
-RELEASE_VERSION="gitlab-ce_CE_VERSION-ce.0"
-DOWNLOAD_URL="https://packages.gitlab.com/gitlab/raspberry-pi2/packages/raspbian/buster/${RELEASE_VERSION}_armhf.deb/download.deb"
+export RELEASE_VERSION="gitlab-ce_CE_VERSION-ce.0"
+export DOWNLOAD_URL="https://packages.gitlab.com/gitlab/raspberry-pi2/packages/raspbian/buster/${RELEASE_VERSION}_armhf.deb/download.deb"
