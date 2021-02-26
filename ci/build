@@ -25,7 +25,7 @@ else
     MANIFEST_LATEST_COMMAND="annotate"
 fi
 
-if [ "$MANIFEST_VERSION" != "${CE_TAG}" ]; then
+if [ "$MANIFEST_VERSION" != "$CE_TAG" ]; then
     export "$MANIFEST_VERSION="${CE_TAG}"
     export "$MANIFEST_VERSION_LIST=$("${MANIFEST_VERSION_LIST} ${CE_TAG}" | tr -d [:space:])
     MANIFEST_VERSION_COMMAND = "create"
