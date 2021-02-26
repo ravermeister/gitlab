@@ -7,19 +7,18 @@ if [ -f /etc/lsb-release ]; then
 else
   source /etc/os-release
 fi
-source /RELEASE
 
 # Install GitLab
 if [ "$1" = "arm64" ]; then
-  export DOWNLOAD_URL=${DOWNLOAD_URL_ARM64}
-  export RELEASE_VERSION=${RELEASE_VERSION_ARM64}
+  source /RELEASE_ARM64
 elif [ "$1" = "armhf" ]; then
-  export DOWNLOAD_URL=${DOWNLOAD_URL_ARMHF}
-  export RELEASE_VERSION=${RELEASE_VERSION_ARMHF}
+  source /RELEASE_ARMHF
 else
   echo "unknown architecture >$1<" >&2
   exit 1
 fi
+export $DOWNLOAD_URL
+export $RELEASE_VERSION
 echo ">>>$RELEASE_VERSION"
 exit 0
 /assets/download-package
