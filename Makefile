@@ -41,5 +41,10 @@ build: version
 push:
 	# Push image to Registries
 	@./ci/release
+	
+push-manifest:
+	# create manifest and to Registries
+	@./ci/release-manifest
+
 
 FORCE:
