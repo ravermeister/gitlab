@@ -6,14 +6,9 @@ _docker(){
     docker "${@}"
 }
 
-tag() {
-    echo -e "\033[1mTagging image: \033[32m${2}\033[0m"
-    _docker tag "${1}" "${2}"
-}
-
 push() {
-    echo -e "\033[1mPushing image: \033[32m${1}\033[0m"
-    _docker push "${1}"
+    echo -e "\033[1mPushing manifest: \033[32m${1}\033[0m"
+    _docker manifest push "${1}"
 }
 
 login() {
