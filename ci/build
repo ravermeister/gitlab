@@ -14,7 +14,7 @@ build() {
 # Set the version to install
 if [ "$TARGET" = "arm64" ]; then
     RELEASE_FILE="docker/RELEASE_ARM64"
-elif[ "$TARGET" = "armhf" ]; then
+elif [ "$TARGET" = "armhf" ]; then
     RELEASE_FILE="docker/RELEASE_ARMHF"
 else
     echo "unkown architecture >$TARGET<" >&2
