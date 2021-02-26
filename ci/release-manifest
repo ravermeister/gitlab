@@ -1,0 +1,46 @@
+#!/bin/bash
+
+set -eo pipefail
+
+_docker(){
+    docker "${@}"
+}
+
+tag() {
+    echo -e "\033[1mTagging image: \033[32m${2}\033[0m"
+    _docker tag "${1}" "${2}"
+}
+
+push() {
+    echo -e "\033[1mPushing image: \033[32m${1}\033[0m"
+    _docker push "${1}"
+}
+
+login() {
+    echo "${2}" | awk '{print $0}' | _docker login --username "${1}" --password-stdin "${3}"
+}
+
+logout() {
+    _docker logout "${1}"
+}
+
+if [[ "${CI_COMMIT_REF_NAME}" == "master" || "${CI_COMMIT_REF_NAME}" == "fork/master" ]]; then
+    tag "${IMAGE}:${CE_TAG}" "${IMAGE}:latest"
+fi
+
+if [[ -n "${CI_REGISTRY}" ]] && [[ -n "${CI_REGISTRY_USER}" ]]; then
+
+    CI_REGISTRY_IMAGE="${CI_REGISTRY}/${CI_REGISTRY_USER}/${IMAGE_NAME}"
+
+    tag "${IMAGE}:${CE_VERSION}" "${CI_REGISTRY_IMAGE}:${CE_VERSION}"
+    tag "${IMAGE}:${CE_VERSION}" "${CI_REGISTRY_IMAGE}:latest"
+
+    if [[ -n "${CI_REGISTRY_USER}" ]] && [[ -n "${CI_REGISTRY_PASSWORD}" ]]; then
+        login "${CI_REGISTRY_USER}" "${CI_REGISTRY_PASSWORD}" "${CI_REGISTRY}"
+
+        push "${CI_REGISTRY_IMAGE}:${CE_VERSION}"
+        push "${CI_REGISTRY_IMAGE}:latest"
+
+        logout "${CI_REGISTRY}"
+    fi
+fi
