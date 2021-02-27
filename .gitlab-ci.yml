@@ -37,6 +37,8 @@ production:
   script:
     - export TARGET="armhf"
     - make build
+    - echo "VERSION -> armhf-$CE_VERSION"
     - export TARGET="arm64"
     - make build
+    - echo "VERSION -> arm64-$CE_VERSION"
     - make push-manifest
