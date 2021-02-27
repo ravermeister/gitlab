@@ -14,7 +14,6 @@ endif
 export CE_TAG:=$(CE_VERSION)
 export IMAGE_NAME:=gitlab
 export IMAGE:=$(MAINTAINER)/$(IMAGE_NAME)
-export TAGLIST+=$(TARGET)-$(CE_VERSION)/
 
 all: version build push
 
