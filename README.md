@@ -1,6 +1,6 @@
 # GitLab CE for ARM
  
-GitLab CE for ARM is in Docker Hub:
+GitLab CE for ARM32 and ARM64 is in Docker Hub:
 
 - [ravermeister/gitlab](https://hub.docker.com/r/ravermeister/gitlab/)
 
