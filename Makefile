@@ -49,8 +49,8 @@ push-manifest:
 	# create manifest and push to Registries
 	@./ci/release-manifest
 
-taglist:
-	@echo export TAGLIST=$(TAGLIST)/$(TARGET)-$(CE_VERSION)";"
+tagversion:
+	@echo $(TARGET)-$(CE_VERSION)
 
 
 FORCE:
