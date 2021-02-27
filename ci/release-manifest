@@ -8,7 +8,7 @@ _docker(){
 
 push() {
     echo -e "\033[1mPushing manifest: \033[32m${1}\033[0m"
-    echo _docker manifest push "${1}"
+    _docker manifest push "${1}"
 }
 
 login() {
@@ -23,13 +23,12 @@ if [[ -n "${CI_REGISTRY}" ]] && [[ -n "${CI_REGISTRY_USER}" ]]; then
 
     CI_REGISTRY_IMAGE="${CI_REGISTRY}/${CI_REGISTRY_USER}/${IMAGE_NAME}"
     
-    for TAG in $(echo -n "${TAGLIST}" | tr "/" " "); do
-        echo ">>TAG: ${TAG}"
+    for TAG in $(echo -n "${TAGLIST}" | tr "/" " "); do        
         TARGET="$(echo -n "$TAG" | cut -d "-" -f1)"
         VERSION="$(echo -n "$TAG" | cut -d "-" -f2)"
 
-        echo _docker manifest create -a "${CI_REGISTRY_IMAGE}:latest" "${IMAGE}:${TARGET}" "${IMAGE}:${VERSION}"
-        echo _docker manifest create -a "${CI_REGISTRY_IMAGE}:${VERSION}" "${IMAGE}:${TARGET}" "${IMAGE}:${VERSION}"
+        _docker manifest create -a "${CI_REGISTRY_IMAGE}:latest" "${IMAGE}:${TARGET}" "${IMAGE}:${VERSION}"
+        _docker manifest create -a "${CI_REGISTRY_IMAGE}:${VERSION}" "${IMAGE}:${TARGET}" "${IMAGE}:${VERSION}"
     done
 
     if [[ -n "${CI_REGISTRY_USER}" ]] && [[ -n "${CI_REGISTRY_PASSWORD}" ]]; then
