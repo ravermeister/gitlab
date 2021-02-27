@@ -37,8 +37,8 @@ production:
   script:
     - export TARGET="armhf"
     - make build
-    - export TAGLIST=$(make tagversion)
+    - export TAGLIST=$(make version)
     - export TARGET="arm64"
     - make build
-    - export TAGLIST=$TAGLIST/$(make tagversion)
+    - export TAGLIST=$TAGLIST/$(make version)
     - make push-manifest
