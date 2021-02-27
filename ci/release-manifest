@@ -6,7 +6,22 @@ _docker(){
     docker "${@}"
 }
 
+tag() {
+    echo -e "\033[1mTagging image: \033[32m${2}\033[0m"
+    _docker tag "${1}" "${2}"
+}
+
 push() {
+    echo -e "\033[1mPushing Image: \033[32m${1}\033[0m"
+    _docker push "${1}"
+}
+
+mancreate(){
+    echo -e "\033[1mCreating manifest: \033[32m${1}\033[0m"
+    _docker manifest create -a "${1}" "${2}"
+}
+
+manpush() {
     echo -e "\033[1mPushing manifest: \033[32m${1}\033[0m"
     _docker manifest push -p "${1}"
 }
@@ -22,24 +37,13 @@ logout() {
 if [[ -n "${CI_REGISTRY}" ]] && [[ -n "${CI_REGISTRY_USER}" ]]; then
 
     CI_REGISTRY_IMAGE="${CI_REGISTRY}/${CI_REGISTRY_USER}/${IMAGE_NAME}"
+
     FIRSTRUN=
     for TAG in $(echo -n "${TAGLIST}" | tr "/" " "); do        
         TARGET="$(echo -n "$TAG" | cut -d "-" -f1)"
         VERSION="$(echo -n "$TAG" | cut -d "-" -f2)"
-        if [ "$FIRSTRUN" = "false" ]; then
-            echo "add to existing manifest:latest"
-            _docker manifest create -a "${CI_REGISTRY_IMAGE}:latest" "${IMAGE}:${TARGET}" "${IMAGE}:${VERSION}"
 
-            echo "add to existing manifest:${VERSION}"
-            _docker manifest create -a "${CI_REGISTRY_IMAGE}:${VERSION}" "${IMAGE}:${TARGET}" "${IMAGE}:${VERSION}"
-        else
-            echo "create new ${CI_REGISTRY_IMAGE}:latest ${IMAGE}:${TARGET} ${IMAGE}:${VERSION}"
-            _docker manifest create "${CI_REGISTRY_IMAGE}:latest" "${IMAGE}:${TARGET}" "${IMAGE}:${VERSION}"
-
-            echo "create new manifest:${VERSION}"
-            _docker manifest create "${CI_REGISTRY_IMAGE}:${VERSION}" "${IMAGE}:${TARGET}" "${IMAGE}:${VERSION}"
-            FIRSTRUN="false"
-        fi
+        tag "${IMAGE}:${TARGET}" "${CI_REGISTRY_IMAGE}:${TARGET}"
     done
 
     if [[ -n "${CI_REGISTRY_USER}" ]] && [[ -n "${CI_REGISTRY_PASSWORD}" ]]; then
@@ -49,8 +53,15 @@ if [[ -n "${CI_REGISTRY}" ]] && [[ -n "${CI_REGISTRY_USER}" ]]; then
         for TAG in $(echo -n "${TAGLIST}" | tr "/" " "); do
             TARGET="$(echo -n "$TAG" | cut -d "-" -f1)"
             VERSION="$(echo -n "$TAG" | cut -d "-" -f2)"
-            push "${CI_REGISTRY_IMAGE}:${VERSION}"
+            
+            push "${CI_REGISTRY_IMAGE}:${TARGET}"
+        
+            mancreate "${CI_REGISTRY_IMAGE}:latest" "${CI_REGISTRY_IMAGE}:${TARGET}"
+            mancreate "${CI_REGISTRY_IMAGE}:${VERSION}" "${CI_REGISTRY_IMAGE}:${TARGET}"
         done
+
+        manpush "${CI_REGISTRY_IMAGE}:latest"
+        manpush "${CI_REGISTRY_IMAGE}:${VERSION}"
 
         logout "${CI_REGISTRY}"
     fi
