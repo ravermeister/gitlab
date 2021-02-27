@@ -38,7 +38,7 @@ version: FORCE
 build: version
 	# Build the GitLab image
 	@./ci/build
-	export TAGLIST:="$(TAGLIST) $(TARGET)-$(CE_VERSION)"
+	export TAGLIST = "$(TAGLIST) $(TARGET)-$(CE_VERSION)"
 
 push:
 	# Push image to Registries
