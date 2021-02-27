@@ -8,7 +8,7 @@ _docker(){
 
 push() {
     echo -e "\033[1mPushing manifest: \033[32m${1}\033[0m"
-    _docker manifest push "${1}"
+    _docker manifest push -p "${1}"
 }
 
 login() {
