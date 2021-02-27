@@ -50,7 +50,6 @@ push-manifest:
 	@./ci/release-manifest
 
 taglist:
-	# create the Taglist of images
 	@echo export TAGLIST=$(TAGLIST)/$(TARGET)-$(CE_VERSION)";"
 
 
