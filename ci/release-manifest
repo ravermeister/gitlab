@@ -25,8 +25,8 @@ if [[ -n "${CI_REGISTRY}" ]] && [[ -n "${CI_REGISTRY_USER}" ]]; then
     
     for TAG in $(echo -n "${TAGLIST}" | tr "/" " "); do
         echo ">>TAG: ${TAG}"
-        TARGET="$($TAG | cut -d "-" -f1)"
-        VERSION="$($TAG | cut -d "-" -f2)"
+        TARGET="$(echo -n "$TAG" | cut -d "-" -f1)"
+        VERSION="$(echo -n "$TAG" | cut -d "-" -f2)"
 
         echo _docker manifest create -a "${CI_REGISTRY_IMAGE}:latest" "${IMAGE}:${TARGET}" "${IMAGE}:${VERSION}"
         echo _docker manifest create -a "${CI_REGISTRY_IMAGE}:${VERSION}" "${IMAGE}:${TARGET}" "${IMAGE}:${VERSION}"
@@ -37,8 +37,8 @@ if [[ -n "${CI_REGISTRY}" ]] && [[ -n "${CI_REGISTRY_USER}" ]]; then
 
         push "${CI_REGISTRY_IMAGE}:latest"
         for TAG in $(echo -n "${TAGLIST}" | tr "/" " "); do
-            TARGET="$($TAG | cut -d "-" -f1)"
-            VERSION="$($TAG | cut -d "-" -f2)"
+            TARGET="$(echo -n "$TAG" | cut -d "-" -f1)"
+            VERSION="$(echo -n "$TAG" | cut -d "-" -f2)"
             push "${CI_REGISTRY_IMAGE}:${VERSION}"
         done
 
