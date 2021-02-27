@@ -59,8 +59,13 @@ if [[ -n "${CI_REGISTRY}" ]] && [[ -n "${CI_REGISTRY_USER}" ]]; then
             mancreate "${CI_REGISTRY_IMAGE}:${VERSION}" "${CI_REGISTRY_IMAGE}:${TARGET}"
         done
 
-        manpush "${CI_REGISTRY_IMAGE}:latest"
-        manpush "${CI_REGISTRY_IMAGE}:${VERSION}"
+        for TAG in $(echo -n "${TAGLIST}" | tr "/" " "); do
+            TARGET="$(echo -n "$TAG" | cut -d "-" -f1)"
+            VERSION="$(echo -n "$TAG" | cut -d "-" -f2)"
+            
+            manpush "${CI_REGISTRY_IMAGE}:${VERSION}"
+        done
+        manpush "${CI_REGISTRY_IMAGE}:latest"        
 
         logout "${CI_REGISTRY}"
     fi
