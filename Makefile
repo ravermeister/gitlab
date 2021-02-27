@@ -14,6 +14,7 @@ endif
 export CE_TAG:=$(CE_VERSION)
 export IMAGE_NAME:=gitlab
 export IMAGE:=$(MAINTAINER)/$(IMAGE_NAME)
+export TAGLIST:=$(TAGLIST)/$(TARGET)-$(CE_VERSION)
 
 all: version build push
 
@@ -38,8 +39,7 @@ version: FORCE
 build: version
 	# Build the GitLab image
 	@./ci/build
-	export TAGLIST = "$(TAGLIST) $(TARGET)-$(CE_VERSION)"
-
+	
 push:
 	# Push image to Registries
 	@./ci/release
