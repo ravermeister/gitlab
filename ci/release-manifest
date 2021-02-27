@@ -27,10 +27,18 @@ if [[ -n "${CI_REGISTRY}" ]] && [[ -n "${CI_REGISTRY_USER}" ]]; then
         TARGET="$(echo -n "$TAG" | cut -d "-" -f1)"
         VERSION="$(echo -n "$TAG" | cut -d "-" -f2)"
         if [ "$FIRSTRUN" = "false" ]; then
+            echo "add to existing manifests"
+            echo _docker manifest create -a "${CI_REGISTRY_IMAGE}:latest" "${IMAGE}:${TARGET}" "${IMAGE}:${VERSION}"
             _docker manifest create -a "${CI_REGISTRY_IMAGE}:latest" "${IMAGE}:${TARGET}" "${IMAGE}:${VERSION}"
+
+            echo _docker manifest create -a "${CI_REGISTRY_IMAGE}:${VERSION}" "${IMAGE}:${TARGET}" "${IMAGE}:${VERSION}"
             _docker manifest create -a "${CI_REGISTRY_IMAGE}:${VERSION}" "${IMAGE}:${TARGET}" "${IMAGE}:${VERSION}"
         else
+            echo "create new manifests"
+            echo _docker manifest create "${CI_REGISTRY_IMAGE}:latest" "${IMAGE}:${TARGET}" "${IMAGE}:${VERSION}"
             _docker manifest create "${CI_REGISTRY_IMAGE}:latest" "${IMAGE}:${TARGET}" "${IMAGE}:${VERSION}"
+
+            echo _docker manifest create "${CI_REGISTRY_IMAGE}:${VERSION}" "${IMAGE}:${TARGET}" "${IMAGE}:${VERSION}"
             _docker manifest create "${CI_REGISTRY_IMAGE}:${VERSION}" "${IMAGE}:${TARGET}" "${IMAGE}:${VERSION}"
             FIRSTRUN="false"
         fi
