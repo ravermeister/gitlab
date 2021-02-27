@@ -38,9 +38,9 @@ production:
     - export TARGET="armhf"
     - make build
     - $(make taglist)
-    - echo "VERSION -> armhf-$CE_VERSION"
+    - echo "TAGLIST >$TAGLIST<"
     - export TARGET="arm64"
     - make build
     - $(make taglist)
-    - echo "VERSION -> arm64-$CE_VERSION"
+    - echo "TAGLIST >$TAGLIST<"
     - make push-manifest
