@@ -25,6 +25,8 @@ help:
 	# Commands
 	# make build - build the GitLab image
 	# make push - push the image to Docker Hub
+	# make push-manifest - push manifest files to Docker hub using TAGLIST variable for choosing the docker images by tag
+	# make taglist - returns the taglist
 
 version: FORCE
 	@echo "---"
@@ -46,6 +48,10 @@ push:
 push-manifest:
 	# create manifest and push to Registries
 	@./ci/release-manifest
+
+taglist:
+	# create the Taglist of images
+	@echo export TAGLIST=$(TAGLIST)/$(TARGET)-$(CE_VERSION)";"
 
 
 FORCE:
