@@ -33,7 +33,7 @@ if [[ -n "${CI_REGISTRY}" ]] && [[ -n "${CI_REGISTRY_USER}" ]]; then
             echo "add to existing manifest:${VERSION}"
             _docker manifest create -a "${CI_REGISTRY_IMAGE}:${VERSION}" "${IMAGE}:${TARGET}" "${IMAGE}:${VERSION}"
         else
-            echo "create new "${CI_REGISTRY_IMAGE}:latest ${IMAGE}:${TARGET} ${IMAGE}:${VERSION}"
+            echo "create new ${CI_REGISTRY_IMAGE}:latest ${IMAGE}:${TARGET} ${IMAGE}:${VERSION}"
             _docker manifest create "${CI_REGISTRY_IMAGE}:latest" "${IMAGE}:${TARGET}" "${IMAGE}:${VERSION}"
 
             echo "create new manifest:${VERSION}"
