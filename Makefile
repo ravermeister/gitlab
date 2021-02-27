@@ -15,12 +15,13 @@ export CE_TAG:=$(CE_VERSION)
 export IMAGE_NAME:=gitlab
 export IMAGE:=$(MAINTAINER)/$(IMAGE_NAME)
 
-all: version build push
+all: info build push
 
 help:
 	# General commands:
 	# make all => build push
-	# make version - show information about the current version
+	# make info - show information about the current version
+	# make version - return the platform and version machine friendly
 	#
 	# Commands
 	# make build - build the GitLab image
@@ -28,7 +29,7 @@ help:
 	# make push-manifest - push manifest files to Docker hub using TAGLIST variable for choosing the docker images by tag
 	# make taglist - returns the taglist
 
-version: FORCE
+info: FORCE
 	@echo "---"
 	@echo Version: $(CE_VERSION)
 	@echo Image: $(IMAGE):$(CE_TAG)
@@ -37,7 +38,7 @@ version: FORCE
 	@echo Brought to you by ravermeister
 	@echo "---"
 
-build: version
+build: info
 	# Build the GitLab image
 	@./ci/build
 	
@@ -49,7 +50,7 @@ push-manifest:
 	# create manifest and push to Registries
 	@./ci/release-manifest
 
-tagversion:
+version:
 	@echo $(TARGET)-$(CE_VERSION)
 
 
