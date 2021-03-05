@@ -37,8 +37,13 @@ production:
   script:
     - export TARGET="armhf"
     - make build
-    - export TAGLIST=$(make version)
+    - version=$(make version)
+    - export TAGLIST=$version
     - export TARGET="arm64"
     - make build
-    - export TAGLIST=$TAGLIST/$(make version)
+    - version=$(make version)
+    - >
+      if[[ "$TAGLIST" != *"$version" ]]; then 
+        export TAGLIST=$TAGLIST/$version
+      fi
     - make push-manifest
