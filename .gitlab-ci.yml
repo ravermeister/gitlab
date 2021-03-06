@@ -43,7 +43,7 @@ production:
     - make build
     - version=$(make version)
     - >
-      if[[ "$TAGLIST" != *"$version" ]]; then 
+      if [[ "$TAGLIST" != *"$version"* ]]; then 
         export TAGLIST=$TAGLIST/$version
       fi
     - make push-manifest
