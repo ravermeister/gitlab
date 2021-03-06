@@ -7,8 +7,8 @@ ifeq ($(TARGET), arm64)
 
 else
 	export ARCHS:="ARM32v7 or later"
-	export DOCKERFILE:=docker/armhf.dockerfile
-	export CE_VERSION:=$(shell ./ci/version armhf)
+	export DOCKERFILE:=docker/arm32.dockerfile
+	export CE_VERSION:=$(shell ./ci/version arm32)
 endif
 
 export CE_TAG:=$(CE_VERSION)
