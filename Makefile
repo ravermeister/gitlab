@@ -2,12 +2,9 @@ export MAINTAINER:=ravermeister
 
 ifeq ($(TARGET), arm64)
 	export ARCHS:="ARM64v8 or later"
-	export DOCKERFILE:=docker/arm64.dockerfile
 	export CE_VERSION:=$(shell ./ci/version arm64)
-
 else
 	export ARCHS:="ARM32v7 or later"
-	export DOCKERFILE:=docker/arm32.dockerfile
 	export CE_VERSION:=$(shell ./ci/version arm32)
 endif
 
