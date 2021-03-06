@@ -16,7 +16,7 @@ if [ "$TARGET" = "arm64" ]; then
     RELEASE_FILE="docker/RELEASE_ARM64"
     PLATFORM="linux/arm64"
 elif [ "$TARGET" = "armhf" ]; then
-    RELEASE_FILE="docker/RELEASE_ARMHF"
+    RELEASE_FILE="docker/RELEASE_ARM32"
     PLATFORM="linux/arm"
 else
     echo "unkown architecture >$TARGET<" >&2
