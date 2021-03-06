@@ -1,11 +1,11 @@
 stages:
-  - snapshot
   - release
 
 .imgjob:
-  image: docker:stable
+  image: docker
   services:
-    - docker:stable-dind
+    - name: docker:dind
+      command: ["--experimental"]
   variables:
     DOCKER_DRIVER: overlay2
   tags:
@@ -15,10 +15,9 @@ stages:
     - mkdir utils
     - apk add --no-cache make bash curl
 
-snapshot_arm32:
+develop:
   extends: .imgjob
-  stage: snapshot
-  allow_failure: true
+  stage: release
   only:
     - branches
   except:
@@ -27,39 +26,19 @@ snapshot_arm32:
   script:
     - export TARGET="armhf"
     - make build
-
-snapshot_arm64:
-  extends: .imgjob
-  stage: snapshot
-  allow_failure: true
-  only:
-    - branches
-  except:
-    - master
-    - fork/master
-  script:
     - export TARGET="arm64"
     - make build
 
-release_arm32:
+production:
   extends: .imgjob
   stage: release
   only:
-    - master
     - fork/master
   script:
     - export TARGET="armhf"
-    - make all
-    - curl -sX POST https://hooks.microbadger.com/images/ravermeister/${TARGET}-gitlab/o9VyWZVOg4SYqB_BC57qn5Sm26Q=
-
-release_arm64:
-  extends: .imgjob
-  stage: release
-  variables:
-    TARGET: arm64
-  only:
-    - fork/master
-  script:
+    - make build
+    - export TAGLIST=$(make version)
     - export TARGET="arm64"
-    - make all
-    - curl -sX POST https://hooks.microbadger.com/images/ravermeister/${TARGET}-gitlab/P8plDIlkQ9bkUrnAPR5ijErM0RI=
+    - make build
+    - export TAGLIST=$TAGLIST/$(make version)
+    - make push-manifest

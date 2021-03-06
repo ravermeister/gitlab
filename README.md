@@ -1,19 +1,16 @@
 # GitLab CE for ARM
- 
-ARM 32bit:  
-[![](https://images.microbadger.com/badges/version/ravermeister/armhf-gitlab.svg)](https://microbadger.com/images/ravermeister/armhf-gitlab "Get your own version badge on microbadger.com") [![](https://images.microbadger.com/badges/image/ravermeister/armhf-gitlab.svg)](https://microbadger.com/images/ravermeister/armhf-gitlab "Get your own image badge on microbadger.com") [![Docker Pulls](https://img.shields.io/docker/pulls/ravermeister/armhf-gitlab.svg)](https://hub.docker.com/r/ravermeister/armhf-gitlab/)  
-ARM 64bit:  
-[![](https://images.microbadger.com/badges/version/ravermeister/arm64-gitlab.svg)](https://microbadger.com/images/ravermeister/arm64-gitlab "Get your own version badge on microbadger.com") [![](https://images.microbadger.com/badges/image/ravermeister/arm64-gitlab.svg)](https://microbadger.com/images/ravermeister/arm64-gitlab "Get your own image badge on microbadger.com") [![Docker Pulls](https://img.shields.io/docker/pulls/ravermeister/arm64-gitlab.svg)](https://hub.docker.com/r/ravermeister/arm64-gitlab/)
 
 GitLab CE for ARM is in Docker Hub:
 
-- [ravermeister/armhf-gitlab](https://hub.docker.com/r/ravermeister/armhf-gitlab/)
-- [ravermeister/arm64-gitlab](https://hub.docker.com/r/ravermeister/arm64-gitlab/)
+- [ravermeister/gitlab](https://hub.docker.com/r/ravermeister/gitlab/)
+
+This version includes both, **arm64** (based on [arm64v8/ubuntu](https://hub.docker.com/r/arm64v8/ubuntu)) 
+as well as **arm32** (based on [arm32v7/debian](https://hub.docker.com/r/arm32v7/debian)) images.  
+It uses [docker manifest](https://docs.docker.com/engine/reference/commandline/manifest/) files to combine them to a single image.
 
 ### NOTES
 * The GitLab Docker image is a monolithic image of GitLab running all the necessary services on a single container.
 * **GitLab only offers the Community Edition for Raspbery Pi**, this Docker images are based on that one; in addition, **only stable builds are containerized**.
-* If you wish to use the new arm64 bit version, replace all occurences of `ravermeister/armhf-gitlab` with `ravermeister/arm64-gitlab` in this README
 * This images provides default settings for it to work properly on ARM devices, which do not have a lot of RAM, you can review these settings [here](docker/assets/gitlab.rb) or use your own settings as explained in [Configure GitLab](#configure-gitlab). As a side note, *although is not advised,* you may still need to add a bit of SWAP (2GB recommended) to your device or have at least 2GB RAM, this can be achieved by using a USB Drive you have gathering dust somewhere; **DO NOT USE THE SD CARD FOR THIS TASK**.
 * This images does not apply sysctl parameters (see [wrapper file](/docker/assets/wrapper#L90)), because it has been causing problems when starting in Docker Swarm, you can read the [reddit discussion](https://www.reddit.com/r/kubernetes/comments/7pr6r7/gitlab_ce_docker_image_for_arm/dtqemei/) about that. Get to the [Sysctl tunning](#sysctl-tunning) topic in order to know how to apply this on the host running GitLab.
 
@@ -40,7 +37,7 @@ hostname gitlab.example.com \
 -v /srv/gitlab/config:/etc/gitlab \
 -v /srv/gitlab/logs:/var/log/gitlab \
 -v /srv/gitlab/data:/var/opt/gitlab \
-ravermeister/armhf-gitlab
+ravermeister/gitlab
 ```
 
 This will download and start a GitLab CE container and publish ports needed to
@@ -61,7 +58,7 @@ docker run -d \
 -v /srv/gitlab/config:/etc/gitlab:Z \
 -v /srv/gitlab/logs:/var/log/gitlab:Z \
 -v /srv/gitlab/data:/var/opt/gitlab:Z \
-ravermeister/armhf-gitlab
+ravermeister/gitlab
 ```
 
 This will ensure that the Docker process has enough permissions to create the
@@ -143,7 +140,7 @@ docker run -d \
 -v /srv/gitlab/config:/etc/gitlab \
 -v /srv/gitlab/logs:/var/log/gitlab \
 -v /srv/gitlab/data:/var/opt/gitlab \
-ravermeister/armhf-gitlab
+ravermeister/gitlab
 ```
 
 Note that every time you execute a `docker run` command, you need to provide
@@ -182,7 +179,7 @@ To upgrade GitLab to a new version you have to:
 3. Pull the new image:
 
     ```bash
-    docker pull ravermeister/armhf-gitlab
+    docker pull ravermeister/gitlab
     ```
 
 4. Create the container once again with previously specified options:
@@ -196,7 +193,7 @@ To upgrade GitLab to a new version you have to:
     -v /srv/gitlab/config:/etc/gitlab \
     -v /srv/gitlab/logs:/var/log/gitlab \
     -v /srv/gitlab/data:/var/opt/gitlab \
-    ravermeister/armhf-gitlab
+    ravermeister/gitlab
     ```
 
 On the first run, GitLab will reconfigure and update itself.
@@ -207,10 +204,10 @@ We provide tagged versions of GitLab Docker images.
 
 To see all available tags check:
 
-- [GitLab tags](https://hub.docker.com/r/ravermeister/armhf-gitlab/tags/)
+- [GitLab tags](https://hub.docker.com/r/ravermeister/gitlab/tags/)
 
-To use a specific tagged version, replace `ravermeister/armhf-gitlab` with
-the GitLab version you want to run, for example `ravermeister/armhf-gitlab:13.5.1`.
+To use a specific tagged version, replace `ravermeister/gitlab` with
+the GitLab version you want to run, for example `ravermeister/gitlab:13.5.1`.
 
 ### Run GitLab CE on public IP address
 
@@ -230,7 +227,7 @@ docker run -d \
 -v /srv/gitlab/config:/etc/gitlab \
 -v /srv/gitlab/logs:/var/log/gitlab \
 -v /srv/gitlab/data:/var/opt/gitlab \
-ravermeister/armhf-gitlab
+ravermeister/gitlab
 ```
 
 You can then access your GitLab instance at `http://1.1.1.1/` and `https://1.1.1.1/`.
@@ -268,7 +265,7 @@ docker run -d \
 -v /srv/gitlab/config:/etc/gitlab \
 -v /srv/gitlab/logs:/var/log/gitlab \
 -v /srv/gitlab/data:/var/opt/gitlab \
-ravermeister/armhf-gitlab
+ravermeister/gitlab
 ```
 
 You then need to appropriately configure `gitlab.rb`:
@@ -327,7 +324,7 @@ Docker-based GitLab installation.
 
     ```yaml
     web:
-      image: 'ravermeister/armhf-gitlab'
+      image: 'ravermeister/gitlab'
       restart: always
       hostname: 'gitlab.example.com'
       environment:
@@ -356,7 +353,7 @@ HTTP and SSH port. Notice how the `GITLAB_OMNIBUS_CONFIG` variables match the
 
 ```yaml
 web:
-  image: 'ravermeister/armhf-gitlab'
+  image: 'ravermeister/gitlab'
   restart: always
   hostname: 'gitlab.example.com'
   environment:

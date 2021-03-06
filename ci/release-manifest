@@ -1,0 +1,81 @@
+#!/bin/bash
+
+set -eo pipefail
+
+_docker(){
+    docker "${@}"
+}
+
+tag() {
+    echo -e "\033[1mTagging image: \033[32m${2}\033[0m"
+    _docker tag "${1}" "${2}"
+}
+
+push() {
+    echo -e "\033[1mPushing Image: \033[32m${1}\033[0m"
+    _docker push "${1}"
+}
+
+mancreate(){
+    echo -e "\033[1mCreating manifest: \033[32m${1}\033[0m"
+    _docker manifest create -a "${1}" "${2}"
+}
+
+manpush() {
+    echo -e "\033[1mPushing manifest: \033[32m${1}\033[0m"
+    _docker manifest push -p "${1}"
+}
+
+login() {
+    echo "${2}" | awk '{print $0}' | _docker login --username "${1}" --password-stdin "${3}"
+}
+
+logout() {
+    _docker logout "${1}"
+}
+
+if [[ -n "${CI_REGISTRY}" ]] && [[ -n "${CI_REGISTRY_USER}" ]]; then
+
+    CI_REGISTRY_IMAGE="${CI_REGISTRY}/${CI_REGISTRY_USER}/${IMAGE_NAME}"
+
+    for TAG in $(echo -n "${TAGLIST}" | tr "/" " "); do        
+        TARGET="$(echo -n "$TAG" | cut -d "-" -f1)"
+        VERSION="$(echo -n "$TAG" | cut -d "-" -f2)"
+
+        tag "${IMAGE}:${TARGET}" "${CI_REGISTRY_IMAGE}:${TARGET}"
+    done
+
+    if [[ -n "${CI_REGISTRY_USER}" ]] && [[ -n "${CI_REGISTRY_PASSWORD}" ]]; then
+        login "${CI_REGISTRY_USER}" "${CI_REGISTRY_PASSWORD}" "${CI_REGISTRY}"
+
+        for TAG in $(echo -n "${TAGLIST}" | tr "/" " "); do
+            TARGET="$(echo -n "$TAG" | cut -d "-" -f1)"
+            VERSION="$(echo -n "$TAG" | cut -d "-" -f2)"
+            
+            push "${CI_REGISTRY_IMAGE}:${TARGET}"
+        
+            mancreate "${CI_REGISTRY_IMAGE}:latest" "${CI_REGISTRY_IMAGE}:${TARGET}"
+            mancreate "${CI_REGISTRY_IMAGE}:${VERSION}" "${CI_REGISTRY_IMAGE}:${TARGET}"
+        done
+
+        PUSHED_VERSIONS=
+        for TAG in $(echo -n "${TAGLIST}" | tr "/" " "); do
+            TARGET="$(echo -n "$TAG" | cut -d "-" -f1)"
+            VERSION="$(echo -n "$TAG" | cut -d "-" -f2)"
+            
+            # push version manifest only once
+            if [[ "$PUSHED_VERSIONS" != *"$VERSION"* ]]; then
+                manpush "${CI_REGISTRY_IMAGE}:${VERSION}"
+                if [ -z "$PUSHED_VERSIONS" ]; then
+                    PUSHED_VERSIONS="$VERSION"
+                else
+                    PUSHED_VERSIONS="$PUSHED_VERSIONS/$VERSION"
+                fi
+                
+            fi
+        done
+        manpush "${CI_REGISTRY_IMAGE}:latest"        
+
+        logout "${CI_REGISTRY}"
+    fi
+fi

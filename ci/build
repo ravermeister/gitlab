@@ -7,12 +7,22 @@ _docker(){
 }
 
 build() {
-    echo -e "\033[1mBuilding image: \033[32m${1}\033[0m"
-    _docker build --no-cache --force-rm --compress -t "${1}" -f "${2}" "${3}"
+    echo -e "\033[1mBuilding image: \033[32m${2}\033[1m\033[0m"
+    _docker build --no-cache --force-rm --compress --platform "${1}" -t "${2}" -t "${3}" -f "${4}" "${5}"
 }
 
 # Set the version to install
-sed -i -e 's/CE_VERSION/'"$CE_VERSION"'/g' docker/RELEASE
+if [ "$TARGET" = "arm64" ]; then
+    RELEASE_FILE="docker/RELEASE_ARM64"
+    PLATFORM="linux/arm64"
+elif [ "$TARGET" = "armhf" ]; then
+    RELEASE_FILE="docker/RELEASE_ARMHF"
+    PLATFORM="linux/arm"
+else
+    echo "unkown architecture >$TARGET<" >&2
+    exit 1
+fi
+sed -i -e 's/CE_VERSION/'"$CE_VERSION"'/g' "$RELEASE_FILE"
 
 # Build the actual image
-build "${IMAGE}:${CE_TAG}" "${DOCKERFILE}" docker/
+build "${PLATFORM}" "${IMAGE}:${TARGET}" "${IMAGE}:${CE_TAG}" "${DOCKERFILE}" docker/

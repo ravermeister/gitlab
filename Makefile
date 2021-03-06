@@ -3,30 +3,33 @@ export MAINTAINER:=ravermeister
 ifeq ($(TARGET), arm64)
 	export ARCHS:="ARM64v8 or later"
 	export DOCKERFILE:=docker/arm64.dockerfile
-	export IMAGE_NAME:=arm64-gitlab
 	export CE_VERSION:=$(shell ./ci/version arm64)
+
 else
 	export ARCHS:="ARM32v7 or later"
 	export DOCKERFILE:=docker/armhf.dockerfile
-	export IMAGE_NAME:=armhf-gitlab
 	export CE_VERSION:=$(shell ./ci/version armhf)
 endif
 
-export IMAGE:=$(MAINTAINER)/$(IMAGE_NAME)
 export CE_TAG:=$(CE_VERSION)
+export IMAGE_NAME:=gitlab
+export IMAGE:=$(MAINTAINER)/$(IMAGE_NAME)
 
-all: version build push
+all: info build push
 
 help:
 	# General commands:
 	# make all => build push
-	# make version - show information about the current version
+	# make info - show information about the current version
+	# make version - return the platform and version machine friendly
 	#
 	# Commands
 	# make build - build the GitLab image
 	# make push - push the image to Docker Hub
+	# make push-manifest - push manifest files to Docker hub using TAGLIST variable for choosing the docker images by tag
+	# make taglist - returns the taglist
 
-version: FORCE
+info: FORCE
 	@echo "---"
 	@echo Version: $(CE_VERSION)
 	@echo Image: $(IMAGE):$(CE_TAG)
@@ -35,12 +38,20 @@ version: FORCE
 	@echo Brought to you by ravermeister
 	@echo "---"
 
-build: version
+build: info
 	# Build the GitLab image
 	@./ci/build
-
+	
 push:
 	# Push image to Registries
 	@./ci/release
+	
+push-manifest:
+	# create manifest and push to Registries
+	@./ci/release-manifest
+
+version:
+	@echo $(TARGET)-$(CE_VERSION)
+
 
 FORCE:

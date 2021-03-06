@@ -7,22 +7,15 @@ RUN set -eux; \
     export DEBIAN_FRONTEND=noninteractive &&\
     apt-get update -q &&\
     apt-get install -yq --no-install-recommends \
-      apt-transport-https \
-      ca-certificates \
-      less \
-      nano \
-      openssh-server \
-      tzdata \
-      libatomic1 \
-      vim \
-      wget \
+      apt-transport-https ca-certificates less nano openssh-server \
+      tzdata libatomic1 vim  wget \
     && rm -rf /var/lib/apt/lists/* \
     && sed 's/session\s*required\s*pam_loginuid.so/session optional pam_loginuid.so/g' -i /etc/pam.d/sshd \
     # Remove MOTD
     && rm -rf /etc/update-motd.d /etc/motd /etc/motd.dynamic \
     && ln -fs /dev/null /run/motd.dynamic
 # Copy assets
-COPY RELEASE /
+COPY RELEASE_ARM64 /RELEASE
 COPY assets/ /assets/
 RUN /assets/setup arm64
 # Allow to access embedded tools
