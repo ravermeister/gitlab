@@ -41,5 +41,4 @@ production:
     - export TARGET="arm64"
     - make build
     - export TAGLIST=$TAGLIST/$(make version)
-    - echo ">>${TAGLIST}<<"
     - make push-manifest
