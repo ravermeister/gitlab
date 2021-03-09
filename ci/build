@@ -8,7 +8,7 @@ _docker(){
 
 build() {
     echo -e "\033[1mBuilding image: \033[32m${2}\033[1m\033[0m"
-    _docker build --no-cache --force-rm --compress --platform "${1}" -t "${2}" -t "${3}" -f "${4}" "${5}"
+    _docker buildx build --no-cache --force-rm --compress --platform "${1}" -t "${2}" -t "${3}" -f "${4}" "${5}"
 }
 
 # Set the version to install
@@ -19,7 +19,7 @@ if [ "$TARGET" = "arm64" ]; then
 elif [ "$TARGET" = "armhf" ]; then
     RELEASE_FILE="docker/arm32/RELEASE"
     DOCKERFILE=docker/arm32/dockerfile
-    PLATFORM="linux/arm"
+    PLATFORM="linux/arm/v7"
 else
     echo "unkown architecture >$TARGET<" >&2
     exit 1
