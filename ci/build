@@ -15,7 +15,7 @@ if [ "$TARGET" = "arm64" ]; then
 elif [ "$TARGET" = "arm32" ]; then
     RELEASE_FILE="docker/arm32/RELEASE"
     DOCKERFILE=docker/arm32/dockerfile
-    PLATFORM="linux/arm"
+    PLATFORM="linux/arm/v7"
 else
     echo "unkown architecture >$TARGET<" >&2
     exit 1
