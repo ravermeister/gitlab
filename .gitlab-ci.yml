@@ -8,12 +8,16 @@ stages:
       command: ["--experimental"]
   variables:
     DOCKER_DRIVER: overlay2
+    BUILDX_VERSION: v0.5.1
   tags:
     - docker
     - arm
   before_script:
     - mkdir utils
     - apk add --no-cache make bash curl
+    - mkdir -p ~/.docker/cli-plugins
+    - curl -sSLo ~/.docker/cli-plugins/docker-buildx https://github.com/docker/buildx/releases/download/$BUILDX_VERSION/buildx-$BUILDX_VERSION.linux-arm64
+    - chmod +x ~/.docker/cli-plugins/docker-buildx
 
 develop:
   extends: .imgjob
