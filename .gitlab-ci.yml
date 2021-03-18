@@ -28,7 +28,7 @@ develop:
     - master
     - fork/master
   script:
-    - export TARGET="arm32"
+    - export TARGET="arm"
     - make build
     - export TARGET="arm64"
     - make build
@@ -39,7 +39,7 @@ production:
   only:
     - fork/master
   script:
-    - export TARGET="arm32"
+    - export TARGET="arm"
     - make build
     - export TAGLIST=$(make version)
     - export TARGET="arm64"
