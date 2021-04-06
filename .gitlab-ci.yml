@@ -51,7 +51,7 @@ build_arm64:
 publish:
   extends: .imgjob
   stage: release
-  depends: 
+  dependencies: 
     - build_arm64
     - build_arm32
   only:
