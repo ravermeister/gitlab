@@ -25,6 +25,7 @@ build_arm32:
   stage: build
   only:
     - fork/master
+    - develop
   script:
     - export TARGET="arm"
     - make build
@@ -39,6 +40,7 @@ build_arm64:
   stage: build
   only:
     - fork/master
+    - develop
   script:
     - export TARGET="arm64"
     - make build
