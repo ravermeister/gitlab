@@ -11,7 +11,7 @@ stages:
     BUILDX_VERSION: v0.5.1
   tags:
     - docker
-    - arm
+    - arm64
   before_script:
     - mkdir utils
     - apk add --no-cache make bash curl
