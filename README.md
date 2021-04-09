@@ -5,8 +5,7 @@ GitLab CE for ARM is in Docker Hub:
 - [ravermeister/gitlab](https://hub.docker.com/r/ravermeister/gitlab/)
 
 This version includes both, **arm64** (based on [arm64v8/debian:stable-slim](https://hub.docker.com/r/arm64v8/debian)) 
-as well as **arm32** (based on [arm32v7/debian:stable-slim](https://hub.docker.com/r/arm32v7/debian)) images.  
-It uses [docker manifest](https://docs.docker.com/engine/reference/commandline/manifest/) files to combine them to a single image.
+as well as **arm32** (based on [arm32v7/debian:stable-slim](https://hub.docker.com/r/arm32v7/debian)) images. It uses [docker manifest](https://docs.docker.com/engine/reference/commandline/manifest/) files to combine them to a single image.
 
 ### NOTES
 * The GitLab Docker image is a monolithic image of GitLab running all the necessary services on a single container.
