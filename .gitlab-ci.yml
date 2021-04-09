@@ -1,4 +1,5 @@
 stages:
+  - build
   - release
 
 .imgjob:
@@ -8,37 +9,53 @@ stages:
       command: ["--experimental"]
   variables:
     DOCKER_DRIVER: overlay2
+    BUILDX_VERSION: v0.5.1
   tags:
     - docker
-    - arm
+    - arm64
   before_script:
     - mkdir utils
     - apk add --no-cache make bash curl
+    - mkdir -p ~/.docker/cli-plugins
+    - curl -sSLo ~/.docker/cli-plugins/docker-buildx https://github.com/docker/buildx/releases/download/$BUILDX_VERSION/buildx-$BUILDX_VERSION.linux-arm64
+    - chmod +x ~/.docker/cli-plugins/docker-buildx
 
-develop:
+build_arm32:
   extends: .imgjob
-  stage: release
-  only:
-    - branches
-  except:
-    - master
-    - fork/master
-  script:
-    - export TARGET="armhf"
-    - make build
-    - export TARGET="arm64"
-    - make build
-
-production:
-  extends: .imgjob
-  stage: release
+  stage: build
   only:
     - fork/master
   script:
-    - export TARGET="armhf"
+    - export TARGET="arm"
     - make build
-    - export TAGLIST=$(make version)
+    - TAGLIST=$(make version)
+    - echo "TAGLIST_ARM32=${TAGLIST}" >>versions.env
+  artifacts:
+    reports:
+      dotenv: versions.env
+
+build_arm64:
+  extends: .imgjob
+  stage: build
+  only:
+    - fork/master
+  script:
     - export TARGET="arm64"
     - make build
-    - export TAGLIST=$TAGLIST/$(make version)
+    - TAGLIST=$(make version)
+    - echo "TAGLIST_ARM64=${TAGLIST}" >>versions.env
+  artifacts:
+    reports:
+      dotenv: versions.env
+
+publish:
+  extends: .imgjob
+  stage: release
+  dependencies: 
+    - build_arm64
+    - build_arm32
+  only:
+    - fork/master
+  script:
+    - export TAGLIST=${TAGLIST_ARM32}/${TAGLIST_ARM64}
     - make push-manifest
