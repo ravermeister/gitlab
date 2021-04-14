@@ -3,7 +3,7 @@ export MAINTAINER:=ravermeister
 ifeq ($(TARGET), arm64)
 	export ARCHS:="ARM64v8 or later"
 	export CE_VERSION:=$(shell ./ci/version arm64)
-else ifeq
+else ifeq ($(TARGET), arm32)
 	export ARCHS:="ARM32v7 or later"
 	export CE_VERSION:=$(shell ./ci/version arm32)
 else
