@@ -3,9 +3,12 @@ export MAINTAINER:=ravermeister
 ifeq ($(TARGET), arm64)
 	export ARCHS:="ARM64v8 or later"
 	export CE_VERSION:=$(shell ./ci/version arm64)
-else
+else ifeq
 	export ARCHS:="ARM32v7 or later"
 	export CE_VERSION:=$(shell ./ci/version arm32)
+else
+	@echo "Unknown Target $(TARGET)"
+	exit 1
 endif
 
 export CE_TAG:=$(CE_VERSION)
