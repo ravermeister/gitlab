@@ -18,21 +18,21 @@ help:
 
 prepare: FORCE
 ifeq ($(TARGET), arm64)
-	export ARCHS:="ARM64v8 or later"
-	export CE_VERSION:=$(shell ./ci/version arm64)
-	export INIT_IMAGE:=true
+        export ARCHS:="ARM64v8 or later"
+        export CE_VERSION:=$(shell ./ci/version arm64)
+        export INIT_IMAGE:=true
 else ifeq ($(TARGET), arm32)
-	export ARCHS:="ARM32v7 or later"
-	export CE_VERSION:=$(shell ./ci/version arm32)
-	export INIT_IMAGE:=true
+        export ARCHS:="ARM32v7 or later"
+        export CE_VERSION:=$(shell ./ci/version arm32)
+        export INIT_IMAGE:=true
 else
 	$(error unknown Target >$(TARGET)<)
 endif
 
 ifeq ($(INIT_IMAGE), true)
-	export CE_TAG:=$(CE_VERSION)
-	export IMAGE_NAME:=gitlab
-	export IMAGE:=$(MAINTAINER)/$(IMAGE_NAME)
+        export CE_TAG:=$(CE_VERSION)
+        export IMAGE_NAME:=gitlab
+        export IMAGE:=$(MAINTAINER)/$(IMAGE_NAME)
 endif
 
 info: prepare
