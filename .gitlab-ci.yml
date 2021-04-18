@@ -2,6 +2,7 @@ stages:
   - prepare
   - build
   - release
+  - cleanup
 
 .imgjob:
   image: docker
@@ -28,7 +29,18 @@ init_docker:
     - fork/master
     - develop
   script:
-    - docker buildx prune -af
+    - docker buildx create --name gitlab
+    - docker buildx use gitlab
+
+clean_docker:
+  extends: .imgjob
+  stage: cleanup
+  only:
+    - fork/master
+    - develop
+  script:
+    - docker buildx stop gitlab
+    - docker buildx rm gitlab
 
 build_arm32:
   extends: .imgjob
