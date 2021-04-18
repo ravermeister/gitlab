@@ -27,7 +27,7 @@ build_arm32:
     - fork/master
     - develop
   script:
-    - export TARGET="arm"
+    - export TARGET="arm32"
     - make build
     - TAGLIST=$(make version)
     - echo "TAGLIST_ARM32=${TAGLIST}" >>versions.env
