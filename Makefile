@@ -1,5 +1,4 @@
 export MAINTAINER:=ravermeister
-export INIT_IMAGE:=false
 
 all: build push
 
@@ -29,11 +28,9 @@ else
 	$(error unknown Target >$(TARGET)<)
 endif
 
-ifeq ($(INIT_IMAGE), true)
-        export CE_TAG:=$(CE_VERSION)
-        export IMAGE_NAME:=gitlab
-        export IMAGE:=$(MAINTAINER)/$(IMAGE_NAME)
-endif
+export CE_TAG:=$(CE_VERSION)
+export IMAGE_NAME:=gitlab
+export IMAGE:=$(MAINTAINER)/$(IMAGE_NAME)
 
 info: prepare
 	@echo "---"
