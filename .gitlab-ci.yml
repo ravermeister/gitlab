@@ -22,6 +22,7 @@ stages:
     - chmod +x ~/.docker/cli-plugins/docker-buildx
 
 init_docker:
+  extends: .imgjob
   stage: prepare
   only:
     - fork/master
