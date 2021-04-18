@@ -19,6 +19,11 @@ stages:
     - mkdir -p ~/.docker/cli-plugins
     - curl -sSLo ~/.docker/cli-plugins/docker-buildx https://github.com/docker/buildx/releases/download/$BUILDX_VERSION/buildx-$BUILDX_VERSION.linux-arm64
     - chmod +x ~/.docker/cli-plugins/docker-buildx
+    - docker buildx create --name gitlab >/dev/null
+    - docker buildx use gitlab
+  after_script:
+    - docker buildx stop gitlab
+    - docker buildx rm gitlab
 
 build_arm32:
   extends: .imgjob
