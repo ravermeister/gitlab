@@ -18,6 +18,7 @@ stages:
     - apk add --no-cache make bash curl
     - mkdir -p ~/.docker/cli-plugins
     - curl -sSLo ~/.docker/cli-plugins/docker-buildx https://github.com/docker/buildx/releases/download/$BUILDX_VERSION/buildx-$BUILDX_VERSION.linux-arm64
+    - chmod +x ~/.docker/cli-plugins/docker-buildx
 
 build_arm32:
   extends: .imgjob
