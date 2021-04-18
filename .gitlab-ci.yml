@@ -1,8 +1,6 @@
 stages:
-  - prepare
   - build
   - release
-  - cleanup
 
 .imgjob:
   image: docker
@@ -20,27 +18,6 @@ stages:
     - apk add --no-cache make bash curl
     - mkdir -p ~/.docker/cli-plugins
     - curl -sSLo ~/.docker/cli-plugins/docker-buildx https://github.com/docker/buildx/releases/download/$BUILDX_VERSION/buildx-$BUILDX_VERSION.linux-arm64
-    - chmod +x ~/.docker/cli-plugins/docker-buildx
-
-init_docker:
-  extends: .imgjob
-  stage: prepare
-  only:
-    - fork/master
-    - develop
-  script:
-    - docker buildx create --name gitlab
-    - docker buildx use gitlab
-
-clean_docker:
-  extends: .imgjob
-  stage: cleanup
-  only:
-    - fork/master
-    - develop
-  script:
-    - docker buildx stop gitlab
-    - docker buildx rm gitlab
 
 build_arm32:
   extends: .imgjob
