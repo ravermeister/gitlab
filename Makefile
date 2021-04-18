@@ -1,11 +1,30 @@
 export MAINTAINER:=ravermeister
+export INIT_IMAGE:=false
+
+ifeq ($(TARGET), arm64)
+	export ARCHS:="ARM64v8 or later"
+	export CE_VERSION:=$(shell ./ci/version arm64)
+	export INIT_IMAGE:=true
+else ifeq ($(TARGET), arm32)
+	export ARCHS:="ARM32v7 or later"
+	export CE_VERSION:=$(shell ./ci/version arm32)
+	export INIT_IMAGE:=true
+else
+	# $(error Unknown Target >$(TARGET)<)
+	@echo "Unknown Target >$(TARGET)<"
+endif
+
+ifeq ($(INIT_IMAGE), true)
+	export CE_TAG:=$(CE_VERSION)
+	export IMAGE_NAME:=gitlab
+	export IMAGE:=$(MAINTAINER)/$(IMAGE_NAME)
+endif
 
 all: build push
 
 help:
 	# General commands:
 	# make all => build push
-	# make prepare - prepare Environment for build (ARM32/ARM64)
 	# make info - show information about the current version
 	# make version - return the platform and version machine friendly
 	#
@@ -15,24 +34,7 @@ help:
 	# make push-manifest - push manifest files to Docker hub using TAGLIST variable for choosing the docker images by tag
 	# make taglist - returns the taglist
 
-prepare: FORCE
-	ifeq ($(TARGET), arm64)
-		export ARCHS:="ARM64v8 or later"
-		export CE_VERSION:=$(shell ./ci/version arm64)
-	else ifeq ($(TARGET), arm32)
-		export ARCHS:="ARM32v7 or later"
-		export CE_VERSION:=$(shell ./ci/version arm32)
-	else
-		# $(error Unknown Target >$(TARGET)<)
-		@echo "Unknown Target >$(TARGET)<"
-		exit 1
-	endif
-
-	export CE_TAG:=$(CE_VERSION)
-	export IMAGE_NAME:=gitlab
-	export IMAGE:=$(MAINTAINER)/$(IMAGE_NAME)
-
-info: prepare
+info: FORCE
 	@echo "---"
 	@echo Version: $(CE_VERSION)
 	@echo Image: $(IMAGE):$(CE_TAG)
