@@ -7,7 +7,8 @@ else ifeq ($(TARGET), arm32)
 	export ARCHS:="ARM32v7 or later"
 	export CE_VERSION:=$(shell ./ci/version arm32)
 else
-	$(error Unknown Target >$(TARGET)<)
+	# $(error Unknown Target >$(TARGET)<)
+	@echo "Unknown Target >$(TARGET)<"
 	exit 1
 endif
 
