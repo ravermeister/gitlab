@@ -38,7 +38,7 @@ if [[ -n "${CI_REGISTRY}" ]] && [[ -n "${CI_REGISTRY_USER}" ]]; then
 
     CI_REGISTRY_IMAGE="${CI_REGISTRY}/${CI_REGISTRY_USER}/${IMAGE_NAME}"
 
-    for TAG in $(echo -n "${TAGLIST}" | tr "/" " "); do        
+    for TAG in $(echo -n "${TAGLIST}" | tr "/" " "); do
         TARGET="$(echo -n "$TAG" | cut -d "-" -f1)"
         VERSION="$(echo -n "$TAG" | cut -d "-" -f2)"
 
@@ -51,9 +51,9 @@ if [[ -n "${CI_REGISTRY}" ]] && [[ -n "${CI_REGISTRY_USER}" ]]; then
         for TAG in $(echo -n "${TAGLIST}" | tr "/" " "); do
             TARGET="$(echo -n "$TAG" | cut -d "-" -f1)"
             VERSION="$(echo -n "$TAG" | cut -d "-" -f2)"
-            
+
             push "${CI_REGISTRY_IMAGE}:${TARGET}"
-        
+
             mancreate "${CI_REGISTRY_IMAGE}:latest" "${CI_REGISTRY_IMAGE}:${TARGET}"
             mancreate "${CI_REGISTRY_IMAGE}:${VERSION}" "${CI_REGISTRY_IMAGE}:${TARGET}"
         done
@@ -62,7 +62,7 @@ if [[ -n "${CI_REGISTRY}" ]] && [[ -n "${CI_REGISTRY_USER}" ]]; then
         for TAG in $(echo -n "${TAGLIST}" | tr "/" " "); do
             TARGET="$(echo -n "$TAG" | cut -d "-" -f1)"
             VERSION="$(echo -n "$TAG" | cut -d "-" -f2)"
-            
+
             # push version manifest only once
             if [[ "$PUSHED_VERSIONS" != *"$VERSION"* ]]; then
                 manpush "${CI_REGISTRY_IMAGE}:${VERSION}"
@@ -71,11 +71,11 @@ if [[ -n "${CI_REGISTRY}" ]] && [[ -n "${CI_REGISTRY_USER}" ]]; then
                 else
                     PUSHED_VERSIONS="$PUSHED_VERSIONS/$VERSION"
                 fi
-                
+
             fi
         done
-        manpush "${CI_REGISTRY_IMAGE}:latest"        
 
+        manpush "${CI_REGISTRY_IMAGE}:latest"
         logout "${CI_REGISTRY}"
     fi
 fi
