@@ -16,13 +16,13 @@ build() {
 #     --platform "${1}" -t "${2}" -t "${3}" -f "${4}" "${5}"
 
 #    docker buildx build --no-cache --force-rm --compress --load \
-#     --platform "${1}" --tag "${2}" --tag "${3}" -f "${4}" "${5}"
+#     --platform "${1}" -t "${2}" -t "${3}" -f "${4}" "${5}"
 
     docker buildx build --no-cache --force-rm --compress \
      --iidfile "./imageid" --platform "${1}" -f "${4}" "${5}"
     imgid="$(cat ./imageid)"
-    tag "${imgid} ${2}"
-    tag "${imgid} ${3}"
+    tag "${imgid}" "${2}"
+    tag "${imgid}" "${3}"
 
     docker buildx stop gitlab
     docker buildx rm gitlab
