@@ -17,6 +17,8 @@ build() {
 
     docker buildx build --no-cache --force-rm --compress \
      --iidfile "id.txt" --platform "${1}" -f "${3}" "${4}"
+    ls -l
+    echo "Content of id.txt"
     cat "id.txt"
     imgid="$(cat id.txt)"
     tag "${imgid}" "${2}"
