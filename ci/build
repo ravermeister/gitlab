@@ -4,13 +4,13 @@ set -eo pipefail
 
 build() {
     echo -e "\033[1mBuilding image: \033[32m${2}\033[1m\033[0m"
-    docker buildx create --name gitlab >/dev/null
-    docker buildx use gitlab
-    docker buildx build --no-cache --force-rm --compress \
+    docker buildx create --use --name gitlab
+
+    docker buildx build --no-cache --force-rm --compress --load \
      --platform "${1}" -t "${2}" -t "${3}" -f "${4}" "${5}"
 
-    docker buildx stop gitlab
-    docker buildx rm gitlab
+   docker buildx stop gitlab
+   docker buildx rm gitlab
 }
 
 # Set the version to install
@@ -23,10 +23,10 @@ elif [ "$TARGET" = "arm32" ]; then
     DOCKERFILE=docker/arm32/dockerfile
     PLATFORM="linux/arm/v7"
 else
-    echo "unkown architecture >$TARGET<" >&2
+    echo "unkown architecture >${TARGET}<" >&2
     exit 1
 fi
 sed -i -e 's/CE_VERSION/'"$CE_VERSION"'/g' "$RELEASE_FILE"
 
 # Build the actual image
-build "${PLATFORM}" "${IMAGE}:${TARGET}" "${IMAGE}:${CE_TAG}" "${DOCKERFILE}" docker/
+build "${PLATFORM}" "${IMAGE}:${TARGET}" "${IMAGE}:${CE_TAG}" "${DOCKERFILE}" "docker/"

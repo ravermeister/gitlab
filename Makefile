@@ -35,7 +35,7 @@ export IMAGE:=$(MAINTAINER)/$(IMAGE_NAME)
 info: prepare
 	@echo "---"
 	@echo Version: $(CE_VERSION)
-	@echo Image: $(IMAGE):$(CE_TAG)
+	@echo Image: $(IMAGE):$(TARGET)
 	@echo Platorms: $(ARCHS)
 	@echo ""
 	@echo Brought to you by ravermeister

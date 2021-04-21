@@ -21,12 +21,8 @@ stages:
     - chmod +x ~/.docker/cli-plugins/docker-buildx
 
 build_arm32:
-#  extends: .imgjob
-
+  extends: .imgjob
   stage: build
-  tags:
-    - arm64
-    - shell
   only:
     - fork/master
     - develop
@@ -40,10 +36,7 @@ build_arm32:
       dotenv: versions.env
 
 build_arm64:
-#  extends: .imgjob
-  tags:
-    - arm64
-    - shell
+  extends: .imgjob
   stage: build
   only:
     - fork/master
@@ -58,10 +51,7 @@ build_arm64:
       dotenv: versions.env
 
 publish:
-#  extends: .imgjob
-  tags:
-    - arm64
-    - shell
+  extends: .imgjob
   stage: release
   dependencies: 
     - build_arm64
