@@ -12,14 +12,14 @@ build() {
     docker buildx create --name gitlab >/dev/null
     docker buildx use gitlab
 
-    docker buildx build --no-cache --force-rm --compress \
-     --platform "${1}" -t "${2}" -f "${3}" "${4}"
-
 #    docker buildx build --no-cache --force-rm --compress \
-#     --iidfile "id.txt" --platform "${1}" -f "${3}" "${4}"
-#    cat "id.txt"
-#    imgid="$(cat id.txt)"
-#    tag "${imgid}" "${2}"
+#     --platform "${1}" -t "${2}" -f "${3}" "${4}"
+
+    docker buildx build --no-cache --force-rm --compress \
+     --iidfile "id.txt" --platform "${1}" -f "${3}" "${4}"
+    cat "id.txt"
+    imgid="$(cat id.txt)"
+    tag "${imgid}" "${2}"
 
     docker buildx stop gitlab
     docker buildx rm gitlab
