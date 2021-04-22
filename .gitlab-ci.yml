@@ -20,7 +20,7 @@ stages:
     - curl -sSLo ~/.docker/cli-plugins/docker-buildx https://github.com/docker/buildx/releases/download/$BUILDX_VERSION/buildx-$BUILDX_VERSION.linux-arm64
     - chmod +x ~/.docker/cli-plugins/docker-buildx
 
-build_arm32:
+arm32:
   extends: .imgjob
   stage: build
   only:
@@ -35,7 +35,7 @@ build_arm32:
     reports:
       dotenv: versions.env
 
-build_arm64:
+arm64:
   extends: .imgjob
   stage: build
   only:
@@ -50,12 +50,12 @@ build_arm64:
     reports:
       dotenv: versions.env
 
-publish:
+dockerhub:
   extends: .imgjob
   stage: release
   dependencies: 
-    - build_arm64
-    - build_arm32
+    - arm64
+    - arm32
   only:
     - fork/master
   script:

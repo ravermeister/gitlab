@@ -4,13 +4,13 @@ set -eo pipefail
 
 build() {
     echo -e "\033[1mBuilding image: \033[32m${2}\033[1m\033[0m"
-    docker buildx create --use --name gitlab
+    docker buildx create --use >/dev/null
 
     docker buildx build --no-cache --force-rm --compress --load \
      --platform "${1}" -t "${2}" -t "${3}" -f "${4}" "${5}"
 
-   docker buildx stop gitlab
-   docker buildx rm gitlab
+   docker buildx stop
+   docker buildx rm
 }
 
 # Set the version to install
