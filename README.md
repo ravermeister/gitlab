@@ -29,6 +29,7 @@ Run the image:
 
 ```bash
 docker run -d \
+--privileged \
 hostname gitlab.example.com \
 -p 443:443 -p 80:80 -p 22:22 \
 --name gitlab \
@@ -50,6 +51,7 @@ If you are on *SELinux* then run this instead:
 
 ```bash
 docker run -d \
+--privileged \
 --hostname gitlab.example.com \
 -p 443:443 -p 80:80 -p 22:22 \
 --name gitlab \
@@ -131,6 +133,7 @@ the container:
 
 ```bash
 docker run -d \
+--privileged \
 --hostname gitlab.example.com \
 --env GITLAB_OMNIBUS_CONFIG="external_url 'http://my.domain.com/'; gitlab_rails['lfs_enabled'] = true;" \
 -p 443:443 -p 80:80 -p 22:22 \
@@ -185,6 +188,7 @@ To upgrade GitLab to a new version you have to:
 
     ```bash
     docker run -d \
+    --privileged \
     --hostname gitlab.example.com \
     -p 443:443 -p 80:80 -p 22:22 \
     --name gitlab \
@@ -217,6 +221,7 @@ To expose GitLab CE on IP 1.1.1.1:
 
 ```bash
 docker run -d \
+--privileged \
 --hostname gitlab.example.com \
 -p 1.1.1.1:443:443 \
 -p 1.1.1.1:80:80 \
@@ -257,6 +262,7 @@ port `2289`, use the following `docker run` command:
 
 ```bash
 docker run -d \
+--privileged \
 --hostname gitlab.example.com \
 -p 8929:80 -p 2289:22 \
 --name gitlab \
