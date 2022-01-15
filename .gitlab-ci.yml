@@ -6,6 +6,7 @@ stages:
   image: docker
   services:
     - name: docker:dind
+      alias: virusrock
       command: ["--experimental"]
   variables:
     DOCKER_DRIVER: overlay2
