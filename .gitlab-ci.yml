@@ -6,7 +6,6 @@ stages:
   image: docker
   services:
     - name: docker:dind
-      alias: docker
       command: ["--experimental"]
   variables:
     DOCKER_DRIVER: overlay2
