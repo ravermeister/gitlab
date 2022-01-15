@@ -10,10 +10,10 @@ stages:
   variables:
     DOCKER_DRIVER: overlay2
     BUILDX_VERSION: v0.7.1
-    BUILDX_ARCHITECTURE: linux-amd64
+    BUILDX_ARCHITECTURE: linux-arm64
   tags:
     - docker
-#    - arm64
+    - arm64
   before_script:
     - mkdir utils
     - apk add --no-cache make bash curl
