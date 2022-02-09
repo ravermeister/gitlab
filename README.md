@@ -29,7 +29,7 @@ Run the image:
 
 ```bash
 docker run -d \
-hostname gitlab.example.com \
+--hostname gitlab.example.com \
 -p 443:443 -p 80:80 -p 22:22 \
 --name gitlab \
 --restart always \
