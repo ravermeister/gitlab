@@ -1,5 +1,6 @@
 FROM arm64v8/debian:stable-slim
-LABEL maintainer="Jonny Rimkus <jonny@rimkus.it>"
+LABEL org.opencontainers.image.authors="Jonny Rimkus <jonny@rimkus.it>" \
+description="Docker CE for arm64 on debian-slim"
 SHELL ["/bin/sh", "-c"]
 ENV LANG=C.UTF-8
 # Install required packages
