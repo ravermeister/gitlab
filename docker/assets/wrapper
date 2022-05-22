@@ -24,7 +24,7 @@ function clean_stale_pids() {
         #  - any (s)ocket or regular (f)ile
         #  - by the name of "*.pid" or "socket.?"
         #  - and delete them
-        find "$x" \
+        find $x \
             \( \
               -type f \
               -o -type s \
@@ -49,24 +49,22 @@ function unmigrated_data_check() {
     set +e
 
     echo "Checking for unmigrated data on legacy storage"
-    found=$(MAX_DATABASE_CONNECTION_CHECKS=5 gitlab-rake "gitlab:storage:legacy_attachments" "gitlab:storage:legacy_projects" 2>&1);
+    found=$(MAX_DATABASE_CONNECTION_CHECKS=5 gitlab-rake gitlab:storage:legacy_attachments gitlab:storage:legacy_projects 2>&1);
 
-    # shellcheck disable=SC2181
     if [ $? -ne 0 ]; then
         echo "Upgrade failed. Could not check for unmigrated data on legacy storage."
         echo ""
-        # shellcheck disable=SC2154
-        echo "$output"
+        echo $output
         echo ""
         echo ""
-        echo "If you would like to restart the instance without performing this check"
+        echo "If you would like to restart the instance without perfming this check"
         echo "check, add the following to your docker command:"
         echo "-e GITLAB_SKIP_UNMIGRATED_DATA_CHECK=true"
         echo ""
         exit 1
     fi
 
-    if ! (echo "$found" | grep 'Found 0 attachments' && echo "$found" | grep 'Found 0 projects') > /dev/null 2>&1; then
+    if ! (echo $found | grep 'Found 0 attachments' && echo $found | grep 'Found 0 projects') > /dev/null 2>&1; then
         echo
         echo "Legacy storage is no longer supported. Please migrate your data to hashed storage."
         echo "Check https://docs.gitlab.com/ee/administration/raketasks/storage.html#migrate-to-hashed-storage for details."
@@ -114,7 +112,7 @@ if old_version=$(cat /var/opt/gitlab/gitlab-rails/VERSION)
 then
     GITLAB_UPGRADE='true'
     new_version=$(awk '/^gitlab-(ce|ee|jh)/ {print $NF}' /opt/gitlab/version-manifest.txt)
-    MIN_VERSION="14.0" gitlab-ctl upgrade-check "${old_version}" "${new_version}"
+    MIN_VERSION="14.10" gitlab-ctl upgrade-check "${old_version}" "${new_version}"
 fi
 
 # Copy gitlab.rb for the first time
@@ -152,10 +150,7 @@ mkdir -p /var/log/gitlab/reconfigure
 
 # Start service manager
 echo "Starting services..."
-
-# shellcheck disable=SC2034
-GITLAB_OMNIBUS_CONFIG=
-/opt/gitlab/embedded/bin/runsvdir-start &
+GITLAB_OMNIBUS_CONFIG= /opt/gitlab/embedded/bin/runsvdir-start &
 
 echo "Configuring GitLab..."
 gitlab-ctl reconfigure
@@ -171,17 +166,17 @@ if [ ! -d /opt/gitlab/service/puma ] && [ ! -d /opt/gitlab/service/sidekiq ]; th
 fi
 
 # Check if there are no unmigrated data to hashed storage if it is an upgrade
-if [ "${GITLAB_UPGRADE}" == 'true' ] && [ "${GITLAB_SKIP_UNMIGRATED_DATA_CHECK}" != 'true' ]; then
+if [ "${GITLAB_UPGRADE}" == 'true' -a "${GITLAB_SKIP_UNMIGRATED_DATA_CHECK}" != 'true' ]; then
   unmigrated_data_check
 fi
 
 # This must be false when the opt-in PostgreSQL version is the default for pg-upgrade,
 # otherwise it must be true.
-ATTEMPT_AUTO_PG_UPGRADE='true'
+ATTEMPT_AUTO_PG_UPGRADE='false'
 
 # Make sure PostgreSQL is at the latest version.
 # If it fails, print a message with a workaround and exit
-if [ "${GITLAB_SKIP_PG_UPGRADE}" != 'true' ] && [ "${ATTEMPT_AUTO_PG_UPGRADE}" != 'false' ]; then
+if [ "${GITLAB_SKIP_PG_UPGRADE}" != 'true' -a "${ATTEMPT_AUTO_PG_UPGRADE}" != 'false' ]; then
     gitlab-ctl pg-upgrade -w --skip-disk-check || failed_pg_upgrade
 fi
 
