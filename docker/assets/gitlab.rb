@@ -38,6 +38,10 @@ external_url "http://#{host}"
 # Explicitly disable init detection since we are running on a container
 package['detect_init'] = false
 
+##! Attempt to modify kernel paramaters. To skip this in containers where the
+##! relevant file system is read-only, set the value to false.
+package['modify_kernel_parameters'] = false
+
 # Load custom config from environment variable: GITLAB_OMNIBUS_CONFIG
 # Disabling the cop since rubocop considers using eval to be security risk but
 # we don't have an easy way out, atleast yet.
