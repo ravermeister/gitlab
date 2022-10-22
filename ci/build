@@ -7,7 +7,7 @@ build() {
     docker buildx create --use >/dev/null
 
     docker buildx build --no-cache --force-rm --compress --load \
-     --squash --platform "${1}" -t "${2}" -t "${3}" -f "${4}" "${5}"
+     --platform "${1}" -t "${2}" -t "${3}" -f "${4}" "${5}"
 
    docker buildx stop
    docker buildx rm
