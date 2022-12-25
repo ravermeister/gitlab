@@ -15,7 +15,7 @@ RUN set -eux; \
     && sed 's/session\s*required\s*pam_loginuid.so/session optional pam_loginuid.so/g' -i /etc/pam.d/sshd \
     # Remove MOTD
     && rm -rf /etc/update-motd.d /etc/motd /etc/motd.dynamic \
-    && ln -fs /dev/null /run/motd.dynamic
+    && ln -fs /dev/null /run/motd.dynamic \
     # Remove generated SSH Keys
     && rm /etc/ssh/ssh_host_ecdsa_key /etc/ssh/ssh_host_ecdsa_key.pub \
     /etc/ssh/ssh_host_ed25519_key /etc/ssh/ssh_host_ed25519_key.pub \
