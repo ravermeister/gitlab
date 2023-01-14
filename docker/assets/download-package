@@ -1,4 +1,4 @@
 #!/bin/bash
 echo "Downloading GitLab CE from Package Cloud - ${RELEASE_VERSION}"
-wget "${DOWNLOAD_URL}" -qO /tmp/gitlab.deb
+wget "${DOWNLOAD_URL}" --content-disposition -qO /tmp/gitlab.deb
 
