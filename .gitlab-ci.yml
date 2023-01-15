@@ -9,7 +9,7 @@ stages:
       command: ["--experimental"]
   variables:
     DOCKER_DRIVER: overlay2
-    BUILDX_VERSION: v0.9.1
+    BUILDX_VERSION: v0.10.0
     BUILDX_ARCHITECTURE: linux-arm64
   tags:
     - docker
