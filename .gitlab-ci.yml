@@ -2,6 +2,9 @@ stages:
   - build
   - release
 
+variables:
+  DOCKER_TLS_CERTDIR: "/certs"
+
 .imgjob:
   image: docker
   services:
