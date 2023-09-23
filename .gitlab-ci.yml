@@ -2,15 +2,13 @@ stages:
   - build
   - release
 
-variables:
-  DOCKER_TLS_CERTDIR: "/certs"
-
 .imgjob:
   image: docker
   services:
     - name: docker:dind
       command: ["--experimental"]
   variables:
+    DOCKER_TLS_CERTDIR: "/certs"
     DOCKER_DRIVER: overlay2
     BUILDX_VERSION: v0.11.2
     BUILDX_ARCHITECTURE: linux-arm64
