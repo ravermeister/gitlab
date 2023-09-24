@@ -20,8 +20,14 @@ mancreate(){
     echo -e "\033[1mCreating manifest: \033[32m${1}\033[0m"    
     # _docker manifest create -a "${1}" "${2}"
     # replaced by docker buildx to append to possible existing manifest
-    _docker buildx imagetools create --append --tag "${1}" "${2}"
+    _docker buildx imagetools create --tag "${1}" "${2}"
 
+}
+manappend(){
+    echo -e "\033[1mAppend to manifest: \033[32m${1}\033[0m"
+    # _docker manifest create -a "${1}" "${2}"
+    # replaced by docker buildx to append to possible existing manifest
+    _docker buildx imagetools create --append --tag "${1}" "${2}"
 }
 
 manpush() {
@@ -44,13 +50,20 @@ if [[ -n "${CI_REGISTRY}" ]] && [[ -n "${CI_REGISTRY_USER}" ]]; then
 
     if [[ -n "${CI_REGISTRY_USER}" ]] && [[ -n "${CI_REGISTRY_PASSWORD}" ]]; then
         login "${CI_REGISTRY_USER}" "${CI_REGISTRY_PASSWORD}" "${CI_REGISTRY}"
-
+        append="false"
         for TAG in $(echo -n "${TAGLIST}" | tr "/" " "); do
             TARGET="$(echo -n "$TAG" | cut -d "-" -f1)"
             VERSION="$(echo -n "$TAG" | cut -d "-" -f2)"
-
-            mancreate "${CI_REGISTRY_IMAGE}:latest" "${CI_REGISTRY_IMAGE}:${TARGET}"
-            mancreate "${CI_REGISTRY_IMAGE}:${VERSION}" "${CI_REGISTRY_IMAGE}:${TARGET}"
+            if [ "${append}" == "true" ]; then
+                manappend "${CI_REGISTRY_IMAGE}:latest" "${CI_REGISTRY_IMAGE}:${TARGET}"
+                manappend "${CI_REGISTRY_IMAGE}:${VERSION}" "${CI_REGISTRY_IMAGE}:${TARGET}"
+            else
+                mancreate "${CI_REGISTRY_IMAGE}:latest" "${CI_REGISTRY_IMAGE}:${TARGET}"
+                mancreate "${CI_REGISTRY_IMAGE}:${VERSION}" "${CI_REGISTRY_IMAGE}:${TARGET}"
+                # append other targets to the release and latest tag
+                append="true"
+            fi
+            
         done
 
         logout "${CI_REGISTRY}"
