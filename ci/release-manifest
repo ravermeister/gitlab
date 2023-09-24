@@ -17,8 +17,11 @@ push() {
 }
 
 mancreate(){
-    echo -e "\033[1mCreating manifest: \033[32m${1}\033[0m"
-    _docker manifest create -a "${1}" "${2}"
+    echo -e "\033[1mCreating manifest: \033[32m${1}\033[0m"    
+    # _docker manifest create -a "${1}" "${2}"
+    # replaced by docker buildx to append to possible existing manifest
+    _docker buildx imagetools create --append "${1}" "${2}"
+
 }
 
 manpush() {
@@ -57,25 +60,16 @@ if [[ -n "${CI_REGISTRY}" ]] && [[ -n "${CI_REGISTRY_USER}" ]]; then
             mancreate "${CI_REGISTRY_IMAGE}:latest" "${CI_REGISTRY_IMAGE}:${TARGET}"
             mancreate "${CI_REGISTRY_IMAGE}:${VERSION}" "${CI_REGISTRY_IMAGE}:${TARGET}"
         done
-
-        PUSHED_VERSIONS=
-        for TAG in $(echo -n "${TAGLIST}" | tr "/" " "); do
-            TARGET="$(echo -n "$TAG" | cut -d "-" -f1)"
-            VERSION="$(echo -n "$TAG" | cut -d "-" -f2)"
-
-            # push version manifest only once
-            if [[ "$PUSHED_VERSIONS" != *"$VERSION"* ]]; then
-                manpush "${CI_REGISTRY_IMAGE}:${VERSION}"
-                if [ -z "$PUSHED_VERSIONS" ]; then
-                    PUSHED_VERSIONS="$VERSION"
-                else
-                    PUSHED_VERSIONS="$PUSHED_VERSIONS/$VERSION"
-                fi
-
-            fi
-        done
-
-        manpush "${CI_REGISTRY_IMAGE}:latest"
+        
+        # we don't need to push, as buildx already acts remote.
+        #PUSHED_VERSIONS=
+        #for TAG in $(echo -n "${TAGLIST}" | tr "/" " "); do
+        #    TARGET="$(echo -n "$TAG" | cut -d "-" -f1)"
+        #    VERSION="$(echo -n "$TAG" | cut -d "-" -f2)"            
+        #    manpush "${CI_REGISTRY_IMAGE}:${VERSION}"
+        #done
+        #
+        #manpush "${CI_REGISTRY_IMAGE}:latest"
         logout "${CI_REGISTRY}"
     fi
 fi
