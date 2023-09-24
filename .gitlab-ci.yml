@@ -2,64 +2,50 @@ stages:
   - build
   - release
 
-.imgjob:
-  image: docker
-  services:
-    - name: docker:dind
-      command: ["--experimental"]
-  variables:
-    DOCKER_TLS_CERTDIR: "/certs"
-    DOCKER_DRIVER: overlay2
-    BUILDX_VERSION: v0.11.2
-    BUILDX_ARCHITECTURE: linux-arm64
-  tags:
-    - docker
-    - arm64
-  before_script:
-    - mkdir utils
-    - apk add --no-cache make bash curl
-    - mkdir -p ~/.docker/cli-plugins
-    - curl -sSLo ~/.docker/cli-plugins/docker-buildx https://github.com/docker/buildx/releases/download/$BUILDX_VERSION/buildx-$BUILDX_VERSION.$BUILDX_ARCHITECTURE
-    - chmod +x ~/.docker/cli-plugins/docker-buildx
+image: docker
+services:
+  - name: docker:dind
+    command: ["--experimental"]
+variables:
+  DOCKER_TLS_CERTDIR: "/certs"
+  DOCKER_DRIVER: overlay2
+  BUILDX_VERSION: v0.11.2
+  BUILDX_ARCHITECTURE: linux-arm64
+before_script:
+  - mkdir utils
+  - apk add --no-cache make bash curl
+  - mkdir -p ~/.docker/cli-plugins
+  - curl -sSLo ~/.docker/cli-plugins/docker-buildx https://github.com/docker/buildx/releases/download/$BUILDX_VERSION/buildx-$BUILDX_VERSION.$BUILDX_ARCHITECTURE
+  - chmod +x ~/.docker/cli-plugins/docker-buildx
 
 arm32:
-  extends: .imgjob
   stage: build
+  tags:
+  - docker
+  - arm64
   only:
     - fork/master
-    - develop
+    - develop    
   script:
     - export TARGET="arm32"
     - make build
-    - TAGLIST=$(make version)
-    - echo "TAGLIST_ARM32=${TAGLIST}" >>versions.env
-  artifacts:
-    reports:
-      dotenv: versions.env
+    - export TAGLIST=$(make version)
+    # build finished, image created
+    - make push-manifest
+    # released to dockerhub
 
 arm64:
-  extends: .imgjob
   stage: build
+  tags:
+  - docker
+  - arm64
   only:
     - fork/master
     - develop
   script:
     - export TARGET="arm64"
     - make build
-    - TAGLIST=$(make version)
-    - echo "TAGLIST_ARM64=${TAGLIST}" >>versions.env
-  artifacts:
-    reports:
-      dotenv: versions.env
-
-dockerhub:
-  extends: .imgjob
-  stage: release
-  dependencies: 
-    - arm64
-    - arm32
-  only:
-    - fork/master
-  script:
-    - export TAGLIST=${TAGLIST_ARM32}/${TAGLIST_ARM64}
+    - export TAGLIST=$(make version)
+    # build finished, image created
     - make push-manifest
+    # released to dockerhub
