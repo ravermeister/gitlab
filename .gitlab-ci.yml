@@ -29,10 +29,12 @@ arm32:
   script:
     - export TARGET="arm32"
     - make build
-    - export TAGLIST=$(make version)
-    # build finished, image created
-    - make push-manifest
-    # released to dockerhub
+    - TAGLIST=$(make version)
+    - echo "TAGLIST_ARM32=${TAGLIST}" >>versions.env
+    - make push    
+  artifacts:
+    reports:
+      dotenv: versions.env
 
 arm64:
   stage: build
@@ -45,7 +47,24 @@ arm64:
   script:
     - export TARGET="arm64"
     - make build
-    - export TAGLIST=$(make version)
-    # build finished, image created
+    - TAGLIST=$(make version)
+    - echo "TAGLIST_ARM64=${TAGLIST}" >>versions.env
+    - make push
+  artifacts:
+    reports:
+      dotenv: versions.env
+
+docker_manifest:
+  stage: release
+  tags:
+  - docker
+  - arm64
+  only:
+    - fork/master
+    - develop  
+  dependencies:
+    - arm32
+    - arm64
+  script:
+    - export TAGLIST=${TAGLIST_ARM32}/${TAGLIST_ARM64}
     - make push-manifest
-    # released to dockerhub

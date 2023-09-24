@@ -32,14 +32,12 @@ if [[ -n "${CI_REGISTRY}" ]] && [[ -n "${CI_REGISTRY_USER}" ]]; then
 
     CI_REGISTRY_IMAGE="${CI_REGISTRY}/${CI_REGISTRY_USER}/${IMAGE_NAME}"
 
-    tag "${IMAGE}:${CE_VERSION}" "${CI_REGISTRY_IMAGE}:${CE_VERSION}"
-    tag "${IMAGE}:${CE_VERSION}" "${CI_REGISTRY_IMAGE}:latest"
+    tag "${IMAGE}:${TARGET}" "${CI_REGISTRY_IMAGE}:${TARGET}"
 
     if [[ -n "${CI_REGISTRY_USER}" ]] && [[ -n "${CI_REGISTRY_PASSWORD}" ]]; then
         login "${CI_REGISTRY_USER}" "${CI_REGISTRY_PASSWORD}" "${CI_REGISTRY}"
 
-        push "${CI_REGISTRY_IMAGE}:${CE_VERSION}"
-        push "${CI_REGISTRY_IMAGE}:latest"
+        push "${CI_REGISTRY_IMAGE}:${TARGET}"
 
         logout "${CI_REGISTRY}"
     fi
