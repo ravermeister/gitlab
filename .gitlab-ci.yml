@@ -24,7 +24,7 @@ arm32:
   - docker
   - arm64
   only:
-    - fork/master
+    - fork/main
     - develop    
   script:
     - export TARGET="arm32"
@@ -42,7 +42,7 @@ arm64:
   - docker
   - arm64
   only:
-    - fork/master
+    - fork/main
     - develop
   script:
     - export TARGET="arm64"
@@ -60,7 +60,7 @@ docker_manifest:
   - docker
   - arm64
   only:
-    - fork/master
+    - fork/main
     - develop  
   dependencies:
     - arm32
