@@ -24,18 +24,18 @@ RUN set -eux; \
     && sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen \
     && locale-gen
     
-ENV LANG en_US.UTF-8  
-ENV LANGUAGE en_US:en  
-ENV LC_ALL en_US.UTF-8  
+ENV LANG=en_US.UTF-8  
+ENV LANGUAGE=en_US:en  
+ENV LC_ALL=en_US.UTF-8  
 
 # Copy assets
 COPY arm32/RELEASE /RELEASE
 COPY assets/ /assets/
 RUN /assets/setup armhf
 # Allow to access embedded tools
-ENV PATH /opt/gitlab/embedded/bin:/opt/gitlab/bin:/assets:$PATH
+ENV PATH=/opt/gitlab/embedded/bin:/opt/gitlab/bin:/assets:$PATH
 # Resolve error: TERM environment variable not set.
-ENV TERM xterm
+ENV TERM=xterm
 # Expose web & ssh
 EXPOSE 443 80 22
 # Define data volumes
