@@ -5,7 +5,7 @@
 gitlab_rails['internal_api_url'] = 'http://localhost:8080/'
 
 ## Prevent Postgres from trying to allocate 25% of total memory
-postgresql['shared_buffers'] = '1MB'
+postgresql['shared_buffers'] = '512MB'
 postgresql['autovacuum_max_workers'] = "2"
 
 # Disable Prometheus node_exporter inside Docker.
