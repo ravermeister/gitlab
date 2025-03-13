@@ -33,7 +33,8 @@ ENV TERM=xterm
 EXPOSE 443 80 22
 # Define data volumes
 VOLUME ["/etc/gitlab", "/var/opt/gitlab", "/var/log/gitlab"]
-# Wrapper to handle signal, trigger runit and reconfigure GitLab
-CMD ["/assets/wrapper"]
+# init-container borrowed from gitlab to handle signal, trigger runit and reconfigure GitLab
+# see: https://gitlab.com/gitlab-org/omnibus-gitlab/-/blob/master/docker/assets/init-container
+CMD ["/assets/init-container"]
 HEALTHCHECK --interval=60s --timeout=30s --retries=5 \
 CMD /opt/gitlab/bin/gitlab-healthcheck --fail --max-time 10
