@@ -50,20 +50,25 @@ if [[ -n "${CI_REGISTRY}" ]] && [[ -n "${CI_REGISTRY_USER}" ]]; then
 
     if [[ -n "${CI_REGISTRY_USER}" ]] && [[ -n "${CI_REGISTRY_PASSWORD}" ]]; then
         login "${CI_REGISTRY_USER}" "${CI_REGISTRY_PASSWORD}" "${CI_REGISTRY}"
-        append="false"
+        APPEND_TAGS=""
+
         for TAG in $(echo -n "${TAGLIST}" | tr "/" " "); do
             TARGET="$(echo -n "$TAG" | cut -d "-" -f1)"
             VERSION="$(echo -n "$TAG" | cut -d "-" -f2)"
-            if [ "${append}" == "true" ]; then
-                manappend "${CI_REGISTRY_IMAGE}:latest" "${CI_REGISTRY_IMAGE}:${TARGET}"
-                manappend "${CI_REGISTRY_IMAGE}:${VERSION}" "${CI_REGISTRY_IMAGE}:${TARGET}"
+            TAG_LATEST="${CI_REGISTRY_IMAGE}:latest"
+            TAG_VERSION="${CI_REGISTRY_IMAGE}:${VERSION}"
+            if [[ "$TAG_LATEST" == *"$APPEND_TAGS"* ]]; then
+                manappend "${TAG_LATEST}" "${CI_REGISTRY_IMAGE}:${TARGET}"
             else
-                mancreate "${CI_REGISTRY_IMAGE}:latest" "${CI_REGISTRY_IMAGE}:${TARGET}"
-                mancreate "${CI_REGISTRY_IMAGE}:${VERSION}" "${CI_REGISTRY_IMAGE}:${TARGET}"
-                # append other targets to the release and latest tag
-                append="true"
+                mancreate "${TAG_LATEST}" "${CI_REGISTRY_IMAGE}:${TARGET}"
+                APPEND_TAGS="$APPEND_TAGS $TAG_LATEST"
             fi
-            
+            if [[ "$TAG_VERSION" == *"$APPEND_TAGS"* ]]; then
+                manappend "${TAG_VERSION}" "${CI_REGISTRY_IMAGE}:${TARGET}"
+            else
+                mancreate "${TAG_VERSION}" "${CI_REGISTRY_IMAGE}:${TARGET}"
+                APPEND_TAGS="$APPEND_TAGS $TAG_VERSION"
+            fi
         done
 
         logout "${CI_REGISTRY}"
