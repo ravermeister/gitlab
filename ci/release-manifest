@@ -57,13 +57,13 @@ if [[ -n "${CI_REGISTRY}" ]] && [[ -n "${CI_REGISTRY_USER}" ]]; then
             VERSION="$(echo -n "$TAG" | cut -d "-" -f2)"
             TAG_LATEST="${CI_REGISTRY_IMAGE}:latest"
             TAG_VERSION="${CI_REGISTRY_IMAGE}:${VERSION}"
-            if [[ "$TAG_LATEST" == *"$APPEND_TAGS"* ]]; then
+            if [[ "$APPEND_TAGS" == *"$TAG_LATEST"* ]]; then
                 manappend "${TAG_LATEST}" "${CI_REGISTRY_IMAGE}:${TARGET}"
             else
                 mancreate "${TAG_LATEST}" "${CI_REGISTRY_IMAGE}:${TARGET}"
                 APPEND_TAGS="$APPEND_TAGS $TAG_LATEST"
             fi
-            if [[ "$TAG_VERSION" == *"$APPEND_TAGS"* ]]; then
+            if [[ "$APPEND_TAGS" == *"$TAG_VERSION"* ]]; then
                 manappend "${TAG_VERSION}" "${CI_REGISTRY_IMAGE}:${TARGET}"
             else
                 mancreate "${TAG_VERSION}" "${CI_REGISTRY_IMAGE}:${TARGET}"
