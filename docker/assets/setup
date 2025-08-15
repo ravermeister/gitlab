@@ -45,11 +45,11 @@ groupadd -f -g 992 gitlab-prometheus
 groupadd -f -g 991 gitlab-consul
 
 # Create accounts (if they don't exist)
-id -u git &>/dev/null || useradd -m -l -u 998 -g git -m -s /bin/sh -d /var/opt/gitlab git
-id -u gitlab-www &>/dev/null || useradd -m -l -u 999 -g gitlab-www -m -s /bin/false -d /var/opt/gitlab/nginx gitlab-www
-id -u gitlab-redis &>/dev/null || useradd -m -l -u 997 -g gitlab-redis -m -s /bin/false -d /var/opt/gitlab/redis gitlab-redis
-id -u gitlab-psql &>/dev/null || useradd -m -l -u 996 -g gitlab-psql -m -s /bin/sh -d /var/opt/gitlab/postgresql gitlab-psql
-id -u mattermost &>/dev/null || useradd -m -l -u 994 -g mattermost -m -s /bin/sh -d /var/opt/gitlab/mattermost mattermost
-id -u registry &>/dev/null || useradd -m -l -u 993 -g registry -m -s /bin/sh -d /var/opt/gitlab/registry registry
-id -u gitlab-prometheus &>/dev/null || useradd -m -l -u 992 -g gitlab-prometheus -m -s /bin/sh -d /var/opt/gitlab/prometheus gitlab-prometheus
-id -u gitlab-consul &>/dev/null || useradd -m -l -u 991 -g gitlab-consul -m -s /bin/sh -d /var/opt/gitlab/consul gitlab-consul
+getent passwd 998 &>/dev/null || useradd -m -l -u 998 -g git -m -s /bin/sh -d /var/opt/gitlab git
+getent passwd 999 &>/dev/null || useradd -m -l -u 999 -g gitlab-www -m -s /bin/false -d /var/opt/gitlab/nginx gitlab-www
+getent passwd 997 &>/dev/null || useradd -m -l -u 997 -g gitlab-redis -m -s /bin/false -d /var/opt/gitlab/redis gitlab-redis
+getent passwd 996 &>/dev/null || useradd -m -l -u 996 -g gitlab-psql -m -s /bin/sh -d /var/opt/gitlab/postgresql gitlab-psql
+getent passwd 994 &>/dev/null || useradd -m -l -u 994 -g mattermost -m -s /bin/sh -d /var/opt/gitlab/mattermost mattermost
+getent passwd 993 &>/dev/null || useradd -m -l -u 993 -g registry -m -s /bin/sh -d /var/opt/gitlab/registry registry
+getent passwd 992 &>/dev/null || useradd -m -l -u 992 -g gitlab-prometheus -m -s /bin/sh -d /var/opt/gitlab/prometheus gitlab-prometheus
+getent passwd 991 &>/dev/null || useradd -m -l -u 991 -g gitlab-consul -m -s /bin/sh -d /var/opt/gitlab/consul gitlab-consul
