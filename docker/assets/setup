@@ -35,14 +35,14 @@ sed -i "s/\/etc\/gitlab\/gitlab.rb/\/assets\/gitlab.rb/" /opt/gitlab/embedded/co
 echo 'gitlab-docker' > /opt/gitlab/embedded/service/gitlab-rails/INSTALLATION_TYPE
 
 # Create groups (if they don't exist)
-groupadd -gf 998 git
-groupadd -gf 999 gitlab-www
-groupadd -gf 997 gitlab-redis
-groupadd -gf 996 gitlab-psql
-groupadd -gf 994 mattermost
-groupadd -gf 993 registry
-groupadd -gf 992 gitlab-prometheus
-groupadd -gf 991 gitlab-consul
+groupadd -f -g 998 git
+groupadd -f -g 999 gitlab-www
+groupadd -f -g 997 gitlab-redis
+groupadd -f -g 996 gitlab-psql
+groupadd -f -g 994 mattermost
+groupadd -f -g 993 registry
+groupadd -f -g 992 gitlab-prometheus
+groupadd -f -g 991 gitlab-consul
 
 # Create accounts (if they don't exist)
 id -u git &>/dev/null || useradd -m -l -u 998 -g git -m -s /bin/sh -d /var/opt/gitlab git
