@@ -34,23 +34,22 @@ sed -i "s/\/etc\/gitlab\/gitlab.rb/\/assets\/gitlab.rb/" /opt/gitlab/embedded/co
 # Set install type to docker
 echo 'gitlab-docker' > /opt/gitlab/embedded/service/gitlab-rails/INSTALLATION_TYPE
 
-# Create groups
-groupadd -g 998 git
-groupadd -g 999 gitlab-www
-groupadd -g 997 gitlab-redis
-groupadd -g 996 gitlab-psql
+# Create groups (if they don't exist)
+groupadd -gf 998 git
+groupadd -gf 999 gitlab-www
+groupadd -gf 997 gitlab-redis
+groupadd -gf 996 gitlab-psql
+groupadd -gf 994 mattermost
+groupadd -gf 993 registry
+groupadd -gf 992 gitlab-prometheus
+groupadd -gf 991 gitlab-consul
 
-groupadd -g 994 mattermost
-groupadd -g 993 registry
-groupadd -g 992 gitlab-prometheus
-groupadd -g 991 gitlab-consul
-
-# Create accounts
-useradd -m -l -u 998 -g git -m -s /bin/sh -d /var/opt/gitlab git
-useradd -m -l -u 999 -g gitlab-www -m -s /bin/false -d /var/opt/gitlab/nginx gitlab-www
-useradd -m -l -u 997 -g gitlab-redis -m -s /bin/false -d /var/opt/gitlab/redis gitlab-redis
-useradd -m -l -u 996 -g gitlab-psql -m -s /bin/sh -d /var/opt/gitlab/postgresql gitlab-psql
-useradd -m -l -u 994 -g mattermost -m -s /bin/sh -d /var/opt/gitlab/mattermost mattermost
-useradd -m -l -u 993 -g registry -m -s /bin/sh -d /var/opt/gitlab/registry registry
-useradd -m -l -u 992 -g gitlab-prometheus -m -s /bin/sh -d /var/opt/gitlab/prometheus gitlab-prometheus
-useradd -m -l -u 991 -g gitlab-consul -m -s /bin/sh -d /var/opt/gitlab/consul gitlab-consul
+# Create accounts (if they don't exist)
+id -u git &>/dev/null || useradd -m -l -u 998 -g git -m -s /bin/sh -d /var/opt/gitlab git
+id -u gitlab-www &>/dev/null || useradd -m -l -u 999 -g gitlab-www -m -s /bin/false -d /var/opt/gitlab/nginx gitlab-www
+id -u gitlab-redis &>/dev/null || useradd -m -l -u 997 -g gitlab-redis -m -s /bin/false -d /var/opt/gitlab/redis gitlab-redis
+id -u gitlab-psql &>/dev/null || useradd -m -l -u 996 -g gitlab-psql -m -s /bin/sh -d /var/opt/gitlab/postgresql gitlab-psql
+id -u mattermost &>/dev/null || useradd -m -l -u 994 -g mattermost -m -s /bin/sh -d /var/opt/gitlab/mattermost mattermost
+id -u registry &>/dev/null || useradd -m -l -u 993 -g registry -m -s /bin/sh -d /var/opt/gitlab/registry registry
+id -u gitlab-prometheus &>/dev/null || useradd -m -l -u 992 -g gitlab-prometheus -m -s /bin/sh -d /var/opt/gitlab/prometheus gitlab-prometheus
+id -u gitlab-consul &>/dev/null || useradd -m -l -u 991 -g gitlab-consul -m -s /bin/sh -d /var/opt/gitlab/consul gitlab-consul
