@@ -2,6 +2,27 @@
 
 set -e
 
+# Create groups
+groupadd -g 998 git
+groupadd -g 999 gitlab-www
+groupadd -g 997 gitlab-redis
+groupadd -g 996 gitlab-psql
+groupadd -g 994 mattermost
+groupadd -g 993 registry
+groupadd -g 992 gitlab-prometheus
+groupadd -g 991 gitlab-consul
+
+# Create accounts
+useradd -m -l -u 998 -g git -m -s /bin/sh -d /var/opt/gitlab git
+useradd -m -l -u 999 -g gitlab-www -m -s /bin/false -d /var/opt/gitlab/nginx gitlab-www
+useradd -m -l -u 997 -g gitlab-redis -m -s /bin/false -d /var/opt/gitlab/redis gitlab-redis
+useradd -m -l -u 996 -g gitlab-psql -m -s /bin/sh -d /var/opt/gitlab/postgresql gitlab-psql
+useradd -m -l -u 994 -g mattermost -m -s /bin/sh -d /var/opt/gitlab/mattermost mattermost
+useradd -m -l -u 993 -g registry -m -s /bin/sh -d /var/opt/gitlab/registry registry
+useradd -m -l -u 992 -g gitlab-prometheus -m -s /bin/sh -d /var/opt/gitlab/prometheus gitlab-prometheus
+useradd -m -l -u 991 -g gitlab-consul -m -s /bin/sh -d /var/opt/gitlab/consul gitlab-consul
+
+# Install GitLab
 if [ -f /etc/lsb-release ]; then
   source /etc/lsb-release
 else
@@ -9,7 +30,6 @@ else
 fi
 source /RELEASE
 
-# Install GitLab
 /assets/download-package
 
 dpkg -i /tmp/gitlab.deb
@@ -34,22 +54,3 @@ sed -i "s/\/etc\/gitlab\/gitlab.rb/\/assets\/gitlab.rb/" /opt/gitlab/embedded/co
 # Set install type to docker
 echo 'gitlab-docker' > /opt/gitlab/embedded/service/gitlab-rails/INSTALLATION_TYPE
 
-# Create groups (if they don't exist)
-groupadd -f -g 998 git
-groupadd -f -g 999 gitlab-www
-groupadd -f -g 997 gitlab-redis
-groupadd -f -g 996 gitlab-psql
-groupadd -f -g 994 mattermost
-groupadd -f -g 993 registry
-groupadd -f -g 992 gitlab-prometheus
-groupadd -f -g 991 gitlab-consul
-
-# Create accounts (if they don't exist)
-getent passwd 998 &>/dev/null || useradd -m -l -u 998 -g git -m -s /bin/sh -d /var/opt/gitlab git
-getent passwd 999 &>/dev/null || useradd -m -l -u 999 -g gitlab-www -m -s /bin/false -d /var/opt/gitlab/nginx gitlab-www
-getent passwd 997 &>/dev/null || useradd -m -l -u 997 -g gitlab-redis -m -s /bin/false -d /var/opt/gitlab/redis gitlab-redis
-getent passwd 996 &>/dev/null || useradd -m -l -u 996 -g gitlab-psql -m -s /bin/sh -d /var/opt/gitlab/postgresql gitlab-psql
-getent passwd 994 &>/dev/null || useradd -m -l -u 994 -g mattermost -m -s /bin/sh -d /var/opt/gitlab/mattermost mattermost
-getent passwd 993 &>/dev/null || useradd -m -l -u 993 -g registry -m -s /bin/sh -d /var/opt/gitlab/registry registry
-getent passwd 992 &>/dev/null || useradd -m -l -u 992 -g gitlab-prometheus -m -s /bin/sh -d /var/opt/gitlab/prometheus gitlab-prometheus
-getent passwd 991 &>/dev/null || useradd -m -l -u 991 -g gitlab-consul -m -s /bin/sh -d /var/opt/gitlab/consul gitlab-consul
