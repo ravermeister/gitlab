@@ -35,22 +35,22 @@ sed -i "s/\/etc\/gitlab\/gitlab.rb/\/assets\/gitlab.rb/" /opt/gitlab/embedded/co
 echo 'gitlab-docker' > /opt/gitlab/embedded/service/gitlab-rails/INSTALLATION_TYPE
 
 # Create groups
-groupadd -g 990 git
-groupadd -g 999 gitlab-www
-groupadd -g 997 gitlab-redis
-groupadd -g 996 gitlab-psql
-groupadd -g 994 mattermost
-groupadd -g 993 registry
-groupadd -g 992 gitlab-prometheus
-groupadd -g 991 gitlab-consul
+groupadd -g 485 git
+groupadd -g 486 gitlab-www
+groupadd -g 487 gitlab-redis
+groupadd -g 488 gitlab-psql
+groupadd -g 489 mattermost
+groupadd -g 490 registry
+groupadd -g 491 gitlab-prometheus
+groupadd -g 492 gitlab-consul
 
 # Create accounts
-useradd -m -l -u 990 -g git -m -s /bin/sh -d /var/opt/gitlab git
-useradd -m -l -u 999 -g gitlab-www -m -s /bin/false -d /var/opt/gitlab/nginx gitlab-www
-useradd -m -l -u 997 -g gitlab-redis -m -s /bin/false -d /var/opt/gitlab/redis gitlab-redis
-useradd -m -l -u 996 -g gitlab-psql -m -s /bin/sh -d /var/opt/gitlab/postgresql gitlab-psql
-useradd -m -l -u 994 -g mattermost -m -s /bin/sh -d /var/opt/gitlab/mattermost mattermost
-useradd -m -l -u 993 -g registry -m -s /bin/sh -d /var/opt/gitlab/registry registry
-useradd -m -l -u 992 -g gitlab-prometheus -m -s /bin/sh -d /var/opt/gitlab/prometheus gitlab-prometheus
-useradd -m -l -u 991 -g gitlab-consul -m -s /bin/sh -d /var/opt/gitlab/consul gitlab-consul
+useradd -m -l -u 485 -g git -m -s /bin/sh -d /var/opt/gitlab git
+useradd -m -l -u 486 -g gitlab-www -m -s /bin/false -d /var/opt/gitlab/nginx gitlab-www
+useradd -m -l -u 487 -g gitlab-redis -m -s /bin/false -d /var/opt/gitlab/redis gitlab-redis
+useradd -m -l -u 488 -g gitlab-psql -m -s /bin/sh -d /var/opt/gitlab/postgresql gitlab-psql
+useradd -m -l -u 489 -g mattermost -m -s /bin/sh -d /var/opt/gitlab/mattermost mattermost
+useradd -m -l -u 490 -g registry -m -s /bin/sh -d /var/opt/gitlab/registry registry
+useradd -m -l -u 491 -g gitlab-prometheus -m -s /bin/sh -d /var/opt/gitlab/prometheus gitlab-prometheus
+useradd -m -l -u 492 -g gitlab-consul -m -s /bin/sh -d /var/opt/gitlab/consul gitlab-consul
 
