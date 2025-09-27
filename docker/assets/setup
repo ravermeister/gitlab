@@ -29,7 +29,7 @@ rm -f /etc/gitlab/gitlab.rb
 # Patch omnibus package
 sed -i "s/external_url 'GENERATED_EXTERNAL_URL'/# external_url 'GENERATED_EXTERNAL_URL'/" /opt/gitlab/etc/gitlab.rb.template
 sed -i "s/\/etc\/gitlab\/gitlab.rb/\/assets\/gitlab.rb/" /opt/gitlab/embedded/cookbooks/gitlab/recipes/show_config.rb
-echo "$SEM_VERSION IN NUMERIC: $(printf "%s" "$SEM_VERSION" | tr -d ".")"
+
 # since gitlab 18.4.0 the file has moved from `gitlab` to `package` folder
 if [ "$(printf "%s" "$SEM_VERSION" | tr -d ".")" -ge 1840 ]; then
   sed -i "s/\/etc\/gitlab\/gitlab.rb/\/assets\/gitlab.rb/" /opt/gitlab/embedded/cookbooks/package/recipes/config.rb
