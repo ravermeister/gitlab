@@ -29,7 +29,13 @@ rm -f /etc/gitlab/gitlab.rb
 # Patch omnibus package
 sed -i "s/external_url 'GENERATED_EXTERNAL_URL'/# external_url 'GENERATED_EXTERNAL_URL'/" /opt/gitlab/etc/gitlab.rb.template
 sed -i "s/\/etc\/gitlab\/gitlab.rb/\/assets\/gitlab.rb/" /opt/gitlab/embedded/cookbooks/gitlab/recipes/show_config.rb
-sed -i "s/\/etc\/gitlab\/gitlab.rb/\/assets\/gitlab.rb/" /opt/gitlab/embedded/cookbooks/package/recipes/config.rb
+
+# since gitlab 18.4.0 the file has moved from `gitlab` to `package` folder
+if [ "$(printf "%s" "$CE_VERSION" | tr -d ".")" -ge 1840 ]; then
+  sed -i "s/\/etc\/gitlab\/gitlab.rb/\/assets\/gitlab.rb/" /opt/gitlab/embedded/cookbooks/package/recipes/config.rb
+else
+  sed -i "s/\/etc\/gitlab\/gitlab.rb/\/assets\/gitlab.rb/" /opt/gitlab/embedded/cookbooks/gitlab/recipes/config.rb
+fi
 
 # Set install type to docker
 echo 'gitlab-docker' > /opt/gitlab/embedded/service/gitlab-rails/INSTALLATION_TYPE
