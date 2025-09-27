@@ -2,7 +2,7 @@ FROM arm32v7/debian:stable-slim
 LABEL org.opencontainers.image.authors="Jonny Rimkus <jonny@rimkus.it>" \
 description="Gitlab CE for arm32 on debian-slim"
 SHELL ["/bin/sh", "-c"]
-
+ENV LANG=C.UTF-8
 # Install required packages
 RUN set -eux; \
     export DEBIAN_FRONTEND=noninteractive &&\
@@ -20,13 +20,6 @@ RUN set -eux; \
     && rm /etc/ssh/ssh_host_ecdsa_key /etc/ssh/ssh_host_ecdsa_key.pub \
     /etc/ssh/ssh_host_ed25519_key /etc/ssh/ssh_host_ed25519_key.pub \
     /etc/ssh/ssh_host_rsa_key /etc/ssh/ssh_host_rsa_key.pub >/dev/null 2>&1 \
-    # Set the locale
-    && sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen \
-    && locale-gen
-    
-ENV LANG=en_US.UTF-8  
-ENV LANGUAGE=en_US:en  
-ENV LC_ALL=en_US.UTF-8  
 
 # Copy assets
 COPY arm32/RELEASE /RELEASE
