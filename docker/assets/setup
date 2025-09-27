@@ -2,6 +2,8 @@
 
 set -e
 
+# arg: current version 
+# arg: required version
 is_minimum_version() {
   CUR_MAJOR_VER=$(printf "%s" "$1" | cut -d "." -f1)
   CUR_MINOR_VER=$(printf "%s" "$1" | cut -d "." -f2)
