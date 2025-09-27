@@ -31,7 +31,9 @@ sed -i "s/external_url 'GENERATED_EXTERNAL_URL'/# external_url 'GENERATED_EXTERN
 sed -i "s/\/etc\/gitlab\/gitlab.rb/\/assets\/gitlab.rb/" /opt/gitlab/embedded/cookbooks/gitlab/recipes/show_config.rb
 
 # since gitlab 18.4.0 the file has moved from `gitlab` to `package` folder
-if [ "$(printf "%s" "$SEM_VERSION" | tr -d ".")" -ge 1840 ]; then
+NUM_VER="$(printf "%s" "$SEM_VERSION" | tr -d ".")"
+printf "Version: %s\nNum Version: %s\n" "$SEM_VERSION" "$NUM_VER"
+if [ $NUM_VER -ge 1840 ]; then
   sed -i "s/\/etc\/gitlab\/gitlab.rb/\/assets\/gitlab.rb/" /opt/gitlab/embedded/cookbooks/package/recipes/config.rb
 else
   sed -i "s/\/etc\/gitlab\/gitlab.rb/\/assets\/gitlab.rb/" /opt/gitlab/embedded/cookbooks/gitlab/recipes/config.rb
