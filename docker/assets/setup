@@ -49,7 +49,14 @@ rm -f /etc/gitlab/gitlab.rb
 
 # Patch omnibus package
 sed -i "s/external_url 'GENERATED_EXTERNAL_URL'/# external_url 'GENERATED_EXTERNAL_URL'/" /opt/gitlab/etc/gitlab.rb.template
-sed -i "s/\/etc\/gitlab\/gitlab.rb/\/assets\/gitlab.rb/" /opt/gitlab/embedded/cookbooks/gitlab/recipes/show_config.rb
+
+# since gitlab 18.8.0 the file has moved from `gitlab` to `package`
+if is_minimum_version "$SEM_VERSION" "18.8.0"; then
+  sed -i "s/\/etc\/gitlab\/gitlab.rb/\/assets\/gitlab.rb/" /opt/gitlab/embedded/cookbooks/package/recipes/show_config.rb
+else
+  sed -i "s/\/etc\/gitlab\/gitlab.rb/\/assets\/gitlab.rb/" /opt/gitlab/embedded/cookbooks/gitlab/recipes/show_config.rb
+fi
+
 # since gitlab 18.4.0 the file has moved from `gitlab` to `package` folder
 if is_minimum_version "$SEM_VERSION" "18.4.0"; then
   sed -i "s/\/etc\/gitlab\/gitlab.rb/\/assets\/gitlab.rb/" /opt/gitlab/embedded/cookbooks/package/recipes/config.rb
