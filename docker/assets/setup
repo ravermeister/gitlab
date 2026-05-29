@@ -5,22 +5,7 @@ set -e
 # arg: current version e.g. 17.11.7
 # arg: required version e.g. 18.4.0 
 is_minimum_version() {
-  CUR_MAJOR_VER=$(printf "%s" "$1" | cut -d "." -f1)
-  CUR_MINOR_VER=$(printf "%s" "$1" | cut -d "." -f2)
-  CUR_PATCH_VER=$(printf "%s" "$1" | cut -d "." -f3)
-  
-  REQ_MAJOR_VER=$(printf "%s" "$2" | cut -d "." -f1)
-  REQ_MINOR_VER=$(printf "%s" "$2" | cut -d "." -f2)
-  REQ_PATCH_VER=$(printf "%s" "$2" | cut -d "." -f3)
-
-  if [[ $CUR_MAJOR_VER -ge $REQ_MAJOR_VER \
-      && $CUR_MINOR_VER -ge $REQ_MINOR_VER \
-      && $CUR_PATCH_VER -ge $REQ_PATCH_VER \
-  ]]; then
-    return 0
-  else
-    return 1
-  fi
+  printf '%s\n%s' "$2" "$1" | sort -C -V
 }
 
 # Install GitLab
