@@ -7,11 +7,18 @@ GitLab CE for ARM is in Docker Hub:
 This version includes both, **arm64** (based on [arm64v8/debian:stable-slim](https://hub.docker.com/r/arm64v8/debian)) 
 as well as **arm32** (based on [arm32v7/debian:stable-slim](https://hub.docker.com/r/arm32v7/debian)) images. It uses [docker manifest](https://docs.docker.com/engine/reference/commandline/manifest/) files to combine them to a single image.
 
+[!IMPORTANT]
+**Architecture & Version Notice:**
+The `latest` tag is a multi-arch manifest. 
+* For **AMD64 / ARM64**, it deploys the current **v19.x** release.
+* For **ARM32 (armhf)**, it automatically deploys **v17.11.7** (the final release supporting 32-bit ARM).
+
 ### NOTES
 * The GitLab Docker image is a monolithic image of GitLab running all the necessary services on a single container.
 * **GitLab only offers the Community Edition for Raspbery Pi**, this Docker images are based on that one; in addition, **only stable builds are containerized**.
 * This images provides default settings for it to work properly on ARM devices, which do not have a lot of RAM, you can review these settings [here](docker/assets/gitlab.rb) or use your own settings as explained in [Configure GitLab](#configure-gitlab). As a side note, *although is not advised,* you may still need to add a bit of SWAP (2GB recommended) to your device or have at least 2GB RAM, this can be achieved by using a USB Drive you have gathering dust somewhere; **DO NOT USE THE SD CARD FOR THIS TASK**.
 * This images does not apply sysctl parameters (see [wrapper file](/docker/assets/wrapper#L90)), because it has been causing problems when starting in Docker Swarm, you can read the [reddit discussion](https://www.reddit.com/r/kubernetes/comments/7pr6r7/gitlab_ce_docker_image_for_arm/dtqemei/) about that. Get to the [Sysctl tunning](#sysctl-tunning) topic in order to know how to apply this on the host running GitLab.
+* Backups are strictly bound to the GitLab version. You cannot restore a v19.x backup onto an ARM32 (v17.11.7) container. Doing so is a user error, not an image bug.
 
 ## The GitLab Docker image can be run in multiple ways:
 
